@@ -27,7 +27,6 @@ public class SceneViewer extends JFrame{
 
 	/**
 	 * 
-	 * @param path
 	 */
 	public SceneViewer()
 	{
@@ -42,7 +41,6 @@ public class SceneViewer extends JFrame{
 	
 	/**
 	 * 
-	 * @param path
 	 * @param width
 	 * @param height
 	 */

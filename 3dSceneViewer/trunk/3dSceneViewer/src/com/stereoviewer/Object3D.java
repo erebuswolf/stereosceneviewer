@@ -108,7 +108,6 @@ public class Object3D {
 		this.name = name;
 	}
 
-
 	public String getParent() {
 		return parent;
 	}
