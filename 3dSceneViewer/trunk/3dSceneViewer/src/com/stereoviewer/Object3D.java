@@ -1,4 +1,5 @@
-import java.awt.Color;
+package com.stereoviewer;
+
 import java.util.Hashtable;
 import java.util.LinkedList;
 

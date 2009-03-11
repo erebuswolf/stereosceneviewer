@@ -1,7 +1,9 @@
+package com.stereoviewer;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Hashtable;
+import java.util.ListIterator;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
@@ -17,45 +19,62 @@ public class Scene {
 
 	///reserved string keyword for knowing whether the object is a child of the scene
 	public static final String rootName="ROOT";
-	///camera of the sscene
+	///camera of the scene
 	private Camera camera=null;
 	///the clear color for the scene
 	private Color clearColor=Color.black;
 	///the title for the scene
 	private String title=null;
-	
-	
+
+
 	/**
 	 * hashtable of all the objects in the entire scene.
 	 * This allows the objects to be accessed by name
 	 */
 	private Hashtable<String,Object3D> objects=new Hashtable<String,Object3D>();
-	
+
 	/**
 	 * arraylist of objects that are root to the scene.
 	 */
 	private LinkedList <Object3D> sceneObjects=new LinkedList <Object3D> ();
-	
+
 	/**
-	 * this constructor doesn't really do a lot
+	 * Sets the title and camera for the scene. Goes through all the objects
+	 * in the scene and adds them to a hashtable. Then goes through that list again
+	 * and links all child and parent objects to each other. 
+	 * @param title The title for the scene to be displayed in the title bar
+	 * @param camera The camera for the scene
+	 * @param allObjects a List of all objects that are in the scene
 	 */
-	public Scene()
-	{
+	public Scene(String title, Camera camera, LinkedList <Object3D> allObjects){
+		this.title=title;
 		
-	}
-	
-	/**
-	 * Parses the xlm file at the path parameter using the sax api and creates a camera and objects for the scene
-	 * adds objects root to the scene to the sceneObjects list
-	 * adds all objects to the objects hashtable, hashed by name
-	 * 
-	 * @param path the path to the scene file to be loaded
-	 */
-	public void loadScene(String path)
-	{
+		this.camera=camera;
 		
+		//hash all objects by name
+		ListIterator <Object3D> runner=allObjects.listIterator();
+		while(runner.hasNext())
+		{
+			Object3D temp=runner.next();
+			objects.put(temp.getName(), temp);
+		}
+
+		//connect all parent child object links
+		runner=allObjects.listIterator();
+		while(runner.hasNext())
+		{
+			Object3D temp=runner.next();
+			
+			if(temp.getParent().equals(rootName)){
+				sceneObjects.add(temp);
+			}
+			else if(objects.get(temp.getParent())!=null){
+				objects.get(temp.getParent()).addAsChild(temp);
+			}
+		}
 	}
-	
+
+
 	/**
 	 * draws all the objects in the scene
 	 * 
@@ -84,7 +103,7 @@ public class Scene {
 		}
 		gl.glPopMatrix();
 
-		
+
 		//draw the back right buffer
 		gl.glDrawBuffer(GL.GL_BACK_RIGHT);
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
@@ -98,11 +117,11 @@ public class Scene {
 		}
 		gl.glPopMatrix();
 	}
-	
+
 	public Camera getCamera() {
 		return camera;
 	}
-	
+
 	public Color getClearColor() {
 		return clearColor;
 	}
@@ -110,7 +129,7 @@ public class Scene {
 	public String getTitle() {
 		return title;
 	}
-	
+
 	/**
 	 * method to retrieve objects by name
 	 * @param name name of the object
@@ -118,7 +137,7 @@ public class Scene {
 	public Object3D getObject(String name){
 		return objects.get(name);
 	}
-	
+
 	/**
 	 * loads a dummy test scene bypassing xml loading
 	 */
@@ -128,13 +147,13 @@ public class Scene {
 		camera=new Camera(0.,0.,-10.,0.,0.,0.,0.,1.,0.,45.,1.,20.,1.);
 		Object3D ball1=new Object3D("ball1","","ROOT",2,0,1,0,0,1,45);
 		Object3D ball2=new Object3D("ball2","","ball1",-2,0,0,0,1,0,90);
-		
+
 		objects.put(ball1.getName(), ball1);
 		objects.put(ball2.getName(), ball2);
-		
+
 		linkObjects();	
 	}
-	
+
 	/**
 	 * links all the objects to their parent objects
 	 * configures all the child lists for every object
@@ -150,5 +169,5 @@ public class Scene {
 			}
 		}
 	}
-	
+
 }

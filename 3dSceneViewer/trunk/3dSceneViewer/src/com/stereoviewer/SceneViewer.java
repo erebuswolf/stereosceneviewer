@@ -1,3 +1,4 @@
+package com.stereoviewer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -20,6 +21,8 @@ public class SceneViewer extends JFrame{
 
 	private Scene scene;
 
+	private final String scenePath="Scene1.xml";
+	
 	private FPSAnimator animator;
 
 	/**
@@ -29,8 +32,8 @@ public class SceneViewer extends JFrame{
 	public SceneViewer()
 	{
 		super();
-		scene=new Scene();
-		scene.fakeLoad();
+		
+		scene=SceneLoader.loadScene(scenePath);
 		//		scene.loadScene(path);
 		this.setTitle(scene.getTitle());
 		this.setSize(600,600);
@@ -46,8 +49,7 @@ public class SceneViewer extends JFrame{
 	public SceneViewer( int width, int height)
 	{
 		super();
-		scene=new Scene();
-		scene.fakeLoad();
+		scene=SceneLoader.loadScene(scenePath);
 		this.setTitle(scene.getTitle());
 		this.setSize(width,height);
 		init();

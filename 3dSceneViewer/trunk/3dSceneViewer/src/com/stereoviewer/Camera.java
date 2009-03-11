@@ -1,3 +1,4 @@
+package com.stereoviewer;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
