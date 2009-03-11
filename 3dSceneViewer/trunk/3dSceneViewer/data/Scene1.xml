@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene>
+    <Title>Demo Scene</Title>
+    <Object>
+        <Name>ball1</Name>
+        <Parent>ROOT</Parent>
+        <Model>./data/board.obj</Model>
+        <PositionX>0</PositionX>
+        <PositionY>-0.5</PositionY>
+        <PositionZ>0</PositionZ>
+        <RotationX>0</RotationX>
+        <RotationY>0</RotationY>
+        <RotationZ>1</RotationZ>
+        <RotationAngle>30</RotationAngle>
+        <ScaleX>1</ScaleX>
+        <ScaleY>1</ScaleY>
+        <ScaleZ>1</ScaleZ>
+    </Object >
+    
+     <Object>
+        <Name>ball2</Name>
+        <Parent>ball1</Parent>
+        <Model>./data/board.obj</Model>
+        <PositionX>0</PositionX>
+        <PositionY>25</PositionY>
+        <PositionZ>0</PositionZ>
+        <RotationX>0</RotationX>
+        <RotationY>1</RotationY>
+        <RotationZ>0</RotationZ>
+        <RotationAngle>0</RotationAngle>
+        <ScaleX>1</ScaleX>
+        <ScaleY>1</ScaleY>
+        <ScaleZ>1</ScaleZ>
+    </Object >
+    
+    <Camera>
+        <FieldOfView>45</FieldOfView>
+        <NearClippingPlane>1</NearClippingPlane>
+        <FarClippingPlane>100</FarClippingPlane>
+        <IntraOcularDistance>1</IntraOcularDistance>
+        <PositionX>0</PositionX>
+        <PositionY>0</PositionY>
+        <PositionZ>-100</PositionZ>
+        <UpX>0</UpX>
+        <UpY>1</UpY>
+        <UpZ>0</UpZ>
+        <TargetX>0</TargetX>
+        <TargetY>0</TargetY>
+        <TargetZ>0</TargetZ>
+    </Camera>
+</Scene >
