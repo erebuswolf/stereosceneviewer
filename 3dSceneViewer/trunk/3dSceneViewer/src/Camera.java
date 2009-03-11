@@ -10,7 +10,6 @@ import com.sun.opengl.util.GLUT;
  *
  */
 public class Camera {
-
 	///camera position vector
 	private Vector3d cameraPosition;
 	///camera target vector
@@ -99,10 +98,10 @@ public class Camera {
 	public void translateLeftEye(GL gl, GLU glu, GLUT glut)
 	{
 		//calculate the right vector
-		Vector3d right=Vector3d.crossProduct(cameraUp, Vector3d.add(cameraPosition,Vector3d.scalarMult(cameraTarget, -1) ));
-		right.normalize();
-		right.scale(-eyespread/2.);
-		glu.gluLookAt(right.getI() +cameraPosition.getI(), right.getJ()+cameraPosition.getJ(), right.getK()+cameraPosition.getK(), cameraTarget.getI(), cameraTarget.getJ(), cameraTarget.getK(), cameraUp.getI(), cameraUp.getJ(), cameraUp.getK());
+		Vector3d left=Vector3d.crossProduct(cameraUp, Vector3d.add(cameraPosition,Vector3d.scalarMult(cameraTarget, -1) ));
+		left.normalize();
+		left.scale(-eyespread/2.);
+		glu.gluLookAt(left.getI() +cameraPosition.getI(), left.getJ()+cameraPosition.getJ(), left.getK()+cameraPosition.getK(), left.getI() +cameraTarget.getI(),left.getJ() + cameraTarget.getJ(),left.getK() + cameraTarget.getK(), cameraUp.getI(), cameraUp.getJ(), cameraUp.getK());
 	}
 	/**
 	 * performs the gl camera transformations for the right eye
@@ -113,7 +112,7 @@ public class Camera {
 		Vector3d right=Vector3d.crossProduct(cameraUp, Vector3d.add(cameraPosition,Vector3d.scalarMult(cameraTarget, -1) ));
 		right.normalize();
 		right.scale(eyespread/2.);
-		glu.gluLookAt(right.getI() +cameraPosition.getI(), right.getJ()+cameraPosition.getJ(), right.getK()+cameraPosition.getK(), cameraTarget.getI(), cameraTarget.getJ(), cameraTarget.getK(), cameraUp.getI(), cameraUp.getJ(), cameraUp.getK());
+		glu.gluLookAt(right.getI() +cameraPosition.getI(), right.getJ()+cameraPosition.getJ(), right.getK()+cameraPosition.getK(),right.getI() + cameraTarget.getI(), right.getJ() +cameraTarget.getJ(), right.getK() +cameraTarget.getK(), cameraUp.getI(), cameraUp.getJ(), cameraUp.getK());
 	}
 
 	public double getZnear() {

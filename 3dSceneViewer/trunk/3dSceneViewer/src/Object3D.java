@@ -17,9 +17,6 @@ public class Object3D {
 	private String name;
 	private String path;
 
-	private Color color;
-	private double transparency;
-
 	private String parent;
 
 	private Vector3d position;
@@ -44,15 +41,12 @@ public class Object3D {
 	 * @param rotx
 	 * @param roty
 	 * @param rotz
-	 * @param color
-	 * @param transparency
+	 * @param rotationAngle
 	 */
-	public Object3D(String name,String path, String parent,double posx,double posy,double posz,double rotx,double roty,double rotz, double rotationAngle, Color color, double transparency)
+	public Object3D(String name,String path, String parent,double posx,double posy,double posz,double rotx,double roty,double rotz, double rotationAngle)
 	{
 		this.path=path;
 		this.parent=parent;
-		this.color=color;
-		this.transparency=transparency;
 		this.name=name;
 		position=new Vector3d(posx,posy,posz);
 		rotationVector=new Vector3d(rotx,roty,rotz);
@@ -71,6 +65,7 @@ public class Object3D {
 		//draw this object
 		gl.glTranslated(position.getI(), position.getJ(), position.getK());
 		gl.glRotated(rotationAngle, rotationVector.getI(), rotationVector.getJ(), rotationVector.getK());
+	
 		glut.glutWireSphere(1, 20, 20);
 		
 		//draw children
@@ -111,18 +106,10 @@ public class Object3D {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public void setColor(Color color)
-	{
-		this.color=color;
-	}
+
 
 	public String getParent() {
 		return parent;
-	}
-	
-	public void setTransparency(double transparency) {
-		this.transparency = transparency;
 	}
 
 	/**

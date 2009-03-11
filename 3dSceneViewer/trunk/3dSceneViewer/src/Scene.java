@@ -126,8 +126,8 @@ public class Scene {
 		title="fake scene";
 		clearColor=Color.black;
 		camera=new Camera(0.,0.,-10.,0.,0.,0.,0.,1.,0.,45.,1.,20.,1.);
-		Object3D ball1=new Object3D("ball1","","ROOT",2,0,1,0,0,1,45,Color.white,255);
-		Object3D ball2=new Object3D("ball2","","ball1",-2,0,0,0,1,0,90,Color.white,255);
+		Object3D ball1=new Object3D("ball1","","ROOT",2,0,1,0,0,1,45);
+		Object3D ball2=new Object3D("ball2","","ball1",-2,0,0,0,1,0,90);
 		
 		objects.put(ball1.getName(), ball1);
 		objects.put(ball2.getName(), ball2);
