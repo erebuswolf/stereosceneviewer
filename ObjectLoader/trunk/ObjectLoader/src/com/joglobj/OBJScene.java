@@ -28,7 +28,6 @@ This Java OBJ Loader DOES NOT support:
 
 public class OBJScene
 {
-
 	ArrayList <Vector3>_vertexList;
 	ArrayList<Vector3> _normalList;
 	ArrayList <Vector3>_texcoordList;
@@ -43,8 +42,6 @@ public class OBJScene
 	public ArrayList<OBJMesh> get_meshList() {
 		return _meshList;
 	}
-
-
 
 	public OBJScene()
 	{
