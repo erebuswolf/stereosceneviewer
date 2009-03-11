@@ -95,7 +95,12 @@ public class SceneLoader {
 		double roty= getDoubleValue(obj,"RotationY");
 		double rotz= getDoubleValue(obj,"RotationZ");
 		double rotangle= getDoubleValue(obj,"RotationAngle");
-		return new Object3D(name,path,parent,posx,posy,posz,rotx,roty,rotz,rotangle);
+		
+
+		double scalex= getDoubleValue(obj,"ScaleX");
+		double scaley= getDoubleValue(obj,"ScaleY");
+		double scalez= getDoubleValue(obj,"ScaleZ");
+		return new Object3D(name,path,parent,posx,posy,posz,rotx,roty,rotz,rotangle,scalex,scaley,scalez);
 	}
 
 	/**

@@ -2,11 +2,15 @@ package com.stereoviewer;
 
 import java.util.Hashtable;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
 import com.sun.opengl.util.GLUT;
+
+import com.joglobj.OBJScene;
+
 
 /**
  * Class for each object being shown
@@ -23,11 +27,14 @@ public class Object3D {
 	private Vector3d position;
 
 	private Vector3d rotationVector;
+
 	private double rotationAngle;
 	
+	private Vector3d scale;
+
 
 	//need a model class implementation
-	//private Model model
+	private OBJScene model;
 
 	private LinkedList<Object3D> children=new LinkedList<Object3D> ();
 
@@ -44,7 +51,7 @@ public class Object3D {
 	 * @param rotz
 	 * @param rotationAngle
 	 */
-	public Object3D(String name,String path, String parent,double posx,double posy,double posz,double rotx,double roty,double rotz, double rotationAngle)
+	public Object3D(String name,String path, String parent,double posx,double posy,double posz,double rotx,double roty,double rotz, double rotationAngle,double scalex,double scaley,double scalez)
 	{
 		this.path=path;
 		this.parent=parent;
@@ -52,8 +59,12 @@ public class Object3D {
 		position=new Vector3d(posx,posy,posz);
 		rotationVector=new Vector3d(rotx,roty,rotz);
 		this.rotationAngle=rotationAngle;
+		
+		scale=new Vector3d(scalex, scaley, scalez);
+		
+		model=new OBJScene();
 	}
-	
+
 	/**
 	 * draws this object and all of its children
 	 * @param gl
@@ -66,18 +77,31 @@ public class Object3D {
 		//draw this object
 		gl.glTranslated(position.getI(), position.getJ(), position.getK());
 		gl.glRotated(rotationAngle, rotationVector.getI(), rotationVector.getJ(), rotationVector.getK());
-	
-		glut.glutWireSphere(1, 20, 20);
+
+//		glut.glutWireSphere(1, 20, 20);
 		
-		//draw children
-		for(Object3D object:children){
-			object.draw(gl, glu, glut);
+		//draw the model
+
+		gl.glPushMatrix();
+		gl.glScaled(scale.getI(), scale.getJ(), scale.getK());
+		model.draw(gl, glu, glut);
+		gl.glPopMatrix();
+		
+		ListIterator <Object3D> runner=children.listIterator();
+		while(runner.hasNext())
+		{
+			Object3D temp=runner.next();
+			temp.draw(gl, glu, glut);
 		}
-		
+
 		//pop the matrix
 		gl.glPopMatrix();
 	}
-	
+
+	public void initModel(GL gl,GLU glu){
+		model.load(path, gl, glu);
+	}
+
 	/**
 	 * sets the position of the object to the input position
 	 * @param posx
@@ -88,7 +112,7 @@ public class Object3D {
 	{
 		position=new Vector3d(posx,posy,posz);
 	}
-	
+
 	/**
 	 * sets the rotation of the object to the input position
 	 * @param posx
@@ -103,7 +127,7 @@ public class Object3D {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}

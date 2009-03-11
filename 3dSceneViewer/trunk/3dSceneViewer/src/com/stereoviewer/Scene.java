@@ -1,6 +1,5 @@
 package com.stereoviewer;
 import java.awt.Color;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Hashtable;
 import java.util.ListIterator;
@@ -26,7 +25,6 @@ public class Scene {
 	///the title for the scene
 	private String title=null;
 
-
 	/**
 	 * hashtable of all the objects in the entire scene.
 	 * This allows the objects to be accessed by name
@@ -37,6 +35,11 @@ public class Scene {
 	 * arraylist of objects that are root to the scene.
 	 */
 	private LinkedList <Object3D> sceneObjects=new LinkedList <Object3D> ();
+	
+	/**
+	 * 
+	 */
+	private LinkedList <Object3D> allObjects=new LinkedList <Object3D> ();
 
 	/**
 	 * Sets the title and camera for the scene. Goes through all the objects
@@ -48,6 +51,7 @@ public class Scene {
 	 */
 	public Scene(String title, Camera camera, LinkedList <Object3D> allObjects){
 		this.title=title;
+		this.allObjects=allObjects;
 		
 		this.camera=camera;
 		
@@ -58,22 +62,9 @@ public class Scene {
 			Object3D temp=runner.next();
 			objects.put(temp.getName(), temp);
 		}
-
-		//connect all parent child object links
-		runner=allObjects.listIterator();
-		while(runner.hasNext())
-		{
-			Object3D temp=runner.next();
-			
-			if(temp.getParent().equals(rootName)){
-				sceneObjects.add(temp);
-			}
-			else if(objects.get(temp.getParent())!=null){
-				objects.get(temp.getParent()).addAsChild(temp);
-			}
-		}
+		//link all the objects to each other
+		linkObjects();
 	}
-
 
 	/**
 	 * draws all the objects in the scene
@@ -98,11 +89,13 @@ public class Scene {
 		gl.glPushMatrix();
 
 		//draw all the objects here
-		for(Object3D object:sceneObjects){
-			object.draw(gl, glu, glut);
+		ListIterator <Object3D> runner=sceneObjects.listIterator();
+		while(runner.hasNext())
+		{
+			Object3D temp=runner.next();
+			temp.draw(gl, glu, glut);
 		}
 		gl.glPopMatrix();
-
 
 		//draw the back right buffer
 		gl.glDrawBuffer(GL.GL_BACK_RIGHT);
@@ -112,8 +105,11 @@ public class Scene {
 		gl.glPushMatrix();
 
 		//draw all the objects again here
-		for(Object3D object:sceneObjects){
-			object.draw(gl, glu, glut);
+		runner=sceneObjects.listIterator();
+		while(runner.hasNext())
+		{
+			Object3D temp=runner.next();
+			temp.draw(gl, glu, glut);
 		}
 		gl.glPopMatrix();
 	}
@@ -145,8 +141,8 @@ public class Scene {
 		title="fake scene";
 		clearColor=Color.black;
 		camera=new Camera(0.,0.,-10.,0.,0.,0.,0.,1.,0.,45.,1.,20.,1.);
-		Object3D ball1=new Object3D("ball1","","ROOT",2,0,1,0,0,1,45);
-		Object3D ball2=new Object3D("ball2","","ball1",-2,0,0,0,1,0,90);
+		Object3D ball1=new Object3D("ball1","","ROOT",2,0,1,0,0,1,45,1,1,1);
+		Object3D ball2=new Object3D("ball2","","ball1",-2,0,0,0,1,0,90,1,1,1);
 
 		objects.put(ball1.getName(), ball1);
 		objects.put(ball2.getName(), ball2);
@@ -159,15 +155,31 @@ public class Scene {
 	 * configures all the child lists for every object
 	 */
 	public void linkObjects(){
-		Collection <Object3D>tempOjbectList= objects.values();
-		for(Object3D object:tempOjbectList){
-			if(object.getParent().equals(Scene.rootName)){
-				sceneObjects.add(object);
+		//connect all parent child object links
+		ListIterator <Object3D> runner=allObjects.listIterator();
+		while(runner.hasNext())
+		{
+			Object3D temp=runner.next();
+			if(temp.getParent().equals(rootName)){
+				sceneObjects.add(temp);
 			}
-			else{
-				object.linkToParent(objects);
+			else if(objects.get(temp.getParent())!=null){
+				objects.get(temp.getParent()).addAsChild(temp);
 			}
 		}
 	}
-
+	
+	/**
+	 * model loading requires a valid GL context so we must do it here.
+	 * @param gl
+	 * @param glu
+	 */
+	public void initModels(GL gl,GLU glu){
+		ListIterator <Object3D> runner=allObjects.listIterator();
+		while(runner.hasNext())
+		{
+			Object3D temp=runner.next();
+			temp.initModel(gl, glu);
+		}
+	}
 }

@@ -4,12 +4,13 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+import javax.media.opengl.GLCanvas;
+import javax.media.opengl.GLCapabilities;
+
 import com.sun.opengl.util.FPSAnimator;
 import com.sun.opengl.util.GLUT;
 
-import javax.media.opengl.*;
 import javax.swing.JFrame;
-
 
 /**
  * Class for the window the scene is seen in
@@ -31,7 +32,6 @@ public class SceneViewer extends JFrame{
 	public SceneViewer()
 	{
 		super();
-		
 		scene=SceneLoader.loadScene(scenePath);
 		//		scene.loadScene(path);
 		this.setTitle(scene.getTitle());
@@ -71,6 +71,7 @@ public class SceneViewer extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
+	
 	public Scene getScene() {
 		return scene;
 	}
@@ -115,6 +116,8 @@ public class SceneViewer extends JFrame{
 			gl.glClearColor(temp[0], temp[1],temp[2], (float) 1.0);
 			glu = new GLU();
 			glut = new GLUT();
+			
+			scene.initModels(gl, glu);
 		}
 
 		public void reshape(GLAutoDrawable gLDrawable,int x, int y, int width, int height) {
