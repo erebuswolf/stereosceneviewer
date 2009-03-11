@@ -192,7 +192,7 @@ class Refresher implements GLEventListener
 		gl.glViewport(0, 0, width, height);
 		gl.glMatrixMode(GL.GL_PROJECTION);
 		gl.glLoadIdentity();
-		glu.gluPerspective(45.0f, h, 1.0, 20.0);
+		glu.gluPerspective(45.0f, h, 1.0, 200.0);
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
 	}
