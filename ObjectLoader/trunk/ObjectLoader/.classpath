@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/jesse/Desktop/objimport/library/objimport.jar"/>
-	<classpathentry kind="lib" path="/Users/jesse/programs/BMEProject/JOGLObjLoader.jar"/>
+	<classpathentry kind="lib" path="Libraries/objimport.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
