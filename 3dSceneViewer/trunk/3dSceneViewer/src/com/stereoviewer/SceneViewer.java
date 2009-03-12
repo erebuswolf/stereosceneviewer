@@ -22,7 +22,7 @@ public class SceneViewer extends JFrame{
 
 	private Scene scene;
 
-	private final String scenePath="Scene1.xml";
+	private final String scenePath="data/Scene1.xml";
 	
 	private FPSAnimator animator;
 
@@ -116,6 +116,8 @@ public class SceneViewer extends JFrame{
 			gl.glClearColor(temp[0], temp[1],temp[2], (float) 1.0);
 			glu = new GLU();
 			glut = new GLUT();
+			
+			
 			
 			scene.initModels(gl, glu);
 		}
