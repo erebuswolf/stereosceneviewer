@@ -23,7 +23,7 @@ public class SceneViewer extends JFrame{
 	private Scene scene;
 
 	private final String scenePath="data/Scene1.xml";
-	
+
 	private FPSAnimator animator;
 
 	/**
@@ -38,7 +38,7 @@ public class SceneViewer extends JFrame{
 		this.setSize(600,600);
 		init();
 	}
-	
+
 	/**
 	 * 
 	 * @param width
@@ -52,7 +52,7 @@ public class SceneViewer extends JFrame{
 		this.setSize(width,height);
 		init();
 	}
-	
+
 	/**
 	 * initializes the window and gl settings
 	 */
@@ -71,7 +71,7 @@ public class SceneViewer extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
-	
+
 	public Scene getScene() {
 		return scene;
 	}
@@ -83,7 +83,7 @@ public class SceneViewer extends JFrame{
 		// TODO Auto-generated method stub
 		SceneViewer viewer= new SceneViewer();
 	}
-	
+
 	/**
 	 * class that responds when an GLEvent is fired
 	 * @author Jesse Fish
@@ -116,9 +116,25 @@ public class SceneViewer extends JFrame{
 			gl.glClearColor(temp[0], temp[1],temp[2], (float) 1.0);
 			glu = new GLU();
 			glut = new GLUT();
+
+			
+			//lighting stuff
+			gl.glEnable(GL.GL_LIGHTING);
+			gl.glEnable(GL.GL_COLOR_MATERIAL);
+			float light_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f};
 			
 			
-			
+			gl.glLightModelfv( GL.GL_LIGHT_MODEL_AMBIENT,light_ambient, 0 );
+
+
+			gl.glLightModeli( GL.GL_LIGHT_MODEL_LOCAL_VIEWER, 
+					//GL.GL_TRUE );
+					GL.GL_FALSE );
+
+			gl.glLightModeli( GL.GL_LIGHT_MODEL_TWO_SIDE, 
+					//GL.GL_TRUE );
+					GL.GL_FALSE );
+
 			scene.initModels(gl, glu);
 		}
 
