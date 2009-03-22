@@ -48,4 +48,36 @@
         <TargetY>0</TargetY>
         <TargetZ>0</TargetZ>
     </Camera>
+
+    <GlobalLight>
+        <ColorR>0.2</ColorR>
+        <ColorG>0.2</ColorG>
+        <ColorB>0.2</ColorB>
+        <ColorA>1</ColorA>
+    </GlobalLight >
+
+    <LightSource>
+        <Name>light_0</Name>
+        <Number>0</Number>
+        <AmbientColorR>0</AmbientColorR>
+        <AmbientColorG>0</AmbientColorG>
+        <AmbientColorB>0</AmbientColorB>
+        <AmbientColorA>1</AmbientColorA>
+        <DiffuseColorR>1</DiffuseColorR>
+        <DiffuseColorG>1</DiffuseColorG>
+        <DiffuseColorB>1</DiffuseColorB>
+        <DiffuseColorA>1</DiffuseColorA>
+        <SpecularColorR>1</SpecularColorR>
+        <SpecularColorG>1</SpecularColorG>
+        <SpecularColorB>1</SpecularColorB>
+        <SpecularColorA>1</SpecularColorA>
+        <Spot_Cutoff>180</Spot_Cutoff>
+        <PositionX>0</PositionX>
+        <PositionY>0</PositionY>
+        <PositionZ>-100</PositionZ>
+        <RotationX>0</RotationX>
+        <RotationY>1</RotationY>
+        <RotationZ>0</RotationZ>
+        <RotationAngle>0</RotationAngle>
+    </LightSource >
 </Scene >

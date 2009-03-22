@@ -25,9 +25,7 @@ public class Object3D {
 	private String parent;
 
 	private Vector3d position;
-
 	private Vector3d rotationVector;
-
 	private double rotationAngle;
 	
 	private Vector3d scale;
@@ -95,7 +93,7 @@ public class Object3D {
 		}
 
 		//pop the matrix
-		gl.glPopMatrix();
+		gl.glPopMatrix();;
 	}
 
 	public void initModel(GL gl,GLU glu){
