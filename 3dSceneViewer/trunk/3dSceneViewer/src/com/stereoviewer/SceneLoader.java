@@ -49,7 +49,64 @@ public class SceneLoader {
 				camera=getCamera(el);}
 		}
 
+		//grab the global lighting element
+		NodeList globalLight = scene.getElementsByTagName("GlobalLight");
+		if(globalLight != null && globalLight.getLength() > 0) {
+			Element el=(Element)globalLight.item(0);
+			if(el!=null){
+				try {
+					getGlobalLighting(el);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}}
+		}
 		return new Scene(title,camera,allObjects);
+	}
+	/**
+	 * Sets up global lighting from the XML file
+	 * @param obj the Element to parse the global lighting from
+	 * @return
+	 * @throws Exception 
+	 */
+	private static void getGlobalLighting(Element obj) throws Exception{
+		float [] lighting=new float[4];
+
+		lighting[0]= (float)getDoubleValue(obj,"ColorR");
+		lighting[1]= (float)getDoubleValue(obj,"ColorG");
+		lighting[2]= (float)getDoubleValue(obj,"ColorB");
+		lighting[3]= (float)getDoubleValue(obj,"ColorA");
+		SceneLight.setGlobalLighting(lighting);
+		
+		float [] clear_color=new float[4];
+
+		clear_color[0]= (float)getDoubleValue(obj,"ClearColorR");
+		clear_color[1]= (float)getDoubleValue(obj,"ClearColorG");
+		clear_color[2]= (float)getDoubleValue(obj,"ClearColorB");
+		clear_color[3]= (float)getDoubleValue(obj,"ClearColorA");
+		SceneLight.setClear_color(clear_color);
+		
+		String temp;
+		
+		temp= getTextValue(obj,"GL_LIGHT_MODEL_LOCAL_VIEWER");
+		if(temp.equalsIgnoreCase("on")){
+			SceneLight.setLocal_viewer(true);
+		}
+		else if(temp.equalsIgnoreCase("off")){
+			SceneLight.setLocal_viewer(false);
+		}else{
+			throw new Exception("Invalid Scene File at GL_LIGHT_MODEL_LOCAL_VIEWER, must have on or off value, defaulting to off");
+		}
+		
+		temp= getTextValue(obj,"GL_LIGHT_MODEL_TWO_SIDE");
+		if(temp.equalsIgnoreCase("on")){
+			SceneLight.setTwo_side(true);
+		}
+		else if(temp.equalsIgnoreCase("off")){
+			SceneLight.setTwo_side(false);
+		}else{
+			throw new Exception("Invalid Scene File at GL_LIGHT_MODEL_TWO_SIDE, must have on or off value, defaulting to off");
+		}
 	}
 	/**
 	 * Creates a Camera object from an xlm Element

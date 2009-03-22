@@ -20,8 +20,6 @@ public class Scene {
 	public static final String rootName="ROOT";
 	///camera of the scene
 	private Camera camera=null;
-	///the clear color for the scene
-	private Color clearColor=Color.black;
 	///the title for the scene
 	private String title=null;
 
@@ -118,9 +116,6 @@ public class Scene {
 		return camera;
 	}
 
-	public Color getClearColor() {
-		return clearColor;
-	}
 
 	public String getTitle() {
 		return title;
@@ -132,22 +127,6 @@ public class Scene {
 	 */
 	public Object3D getObject(String name){
 		return objects.get(name);
-	}
-
-	/**
-	 * loads a dummy test scene bypassing xml loading
-	 */
-	public void fakeLoad(){
-		title="fake scene";
-		clearColor=Color.black;
-		camera=new Camera(0.,0.,-10.,0.,0.,0.,0.,1.,0.,45.,1.,20.,1.);
-		Object3D ball1=new Object3D("ball1","","ROOT",2,0,1,0,0,1,45,1,1,1);
-		Object3D ball2=new Object3D("ball2","","ball1",-2,0,0,0,1,0,90,1,1,1);
-
-		objects.put(ball1.getName(), ball1);
-		objects.put(ball2.getName(), ball2);
-
-		linkObjects();	
 	}
 
 	/**

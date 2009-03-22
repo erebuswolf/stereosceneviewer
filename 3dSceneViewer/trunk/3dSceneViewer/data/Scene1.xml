@@ -50,10 +50,16 @@
     </Camera>
 
     <GlobalLight>
-        <ColorR>0.2</ColorR>
-        <ColorG>0.2</ColorG>
-        <ColorB>0.2</ColorB>
+        <ColorR>0.5</ColorR>
+        <ColorG>0.5</ColorG>
+        <ColorB>0.5</ColorB>
         <ColorA>1</ColorA>
+        <ClearColorR>0.0</ClearColorR>
+        <ClearColorG>0.0</ClearColorG>
+        <ClearColorB>0.0</ClearColorB>
+        <ClearColorA>1</ClearColorA>
+        <GL_LIGHT_MODEL_LOCAL_VIEWER>off</GL_LIGHT_MODEL_LOCAL_VIEWER>
+        <GL_LIGHT_MODEL_TWO_SIDE>off</GL_LIGHT_MODEL_TWO_SIDE>
     </GlobalLight >
 
     <LightSource>

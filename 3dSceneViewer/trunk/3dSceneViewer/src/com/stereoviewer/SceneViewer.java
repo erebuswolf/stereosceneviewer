@@ -111,30 +111,42 @@ public class SceneViewer extends JFrame{
 		public void init(GLAutoDrawable gLDrawable) {
 			GL gl = gLDrawable.getGL();
 			gl.glShadeModel(GL.GL_SMOOTH);              // Enable Smooth Shading
-			float[] temp=new float[3];
-			scene.getClearColor().getRGBColorComponents(temp);
-			gl.glClearColor(temp[0], temp[1],temp[2], (float) 1.0);
+			float[] temp=SceneLight.getClear_color();
+			gl.glClearColor(temp[0], temp[1],temp[2], temp[3]);
 			glu = new GLU();
 			glut = new GLUT();
 
+			//Start lighting setup
 			
 			//lighting stuff
 			gl.glEnable(GL.GL_LIGHTING);
 			gl.glEnable(GL.GL_COLOR_MATERIAL);
-			float light_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f};
 			
+			// make sure that this line is copied into the change ambient lighting method
+			gl.glLightModelfv( GL.GL_LIGHT_MODEL_AMBIENT,SceneLight.getGlobalLighting(), 0 );
 			
-			gl.glLightModelfv( GL.GL_LIGHT_MODEL_AMBIENT,light_ambient, 0 );
 
+			// make sure that these lines are copied into the change viewer model lighting methods
+			int local_viewer;
+			if(SceneLight.isLocal_viewer()){
+				local_viewer=GL.GL_TRUE;
+			}
+			else{
+				local_viewer=GL.GL_FALSE;
+			}
+			gl.glLightModeli( GL.GL_LIGHT_MODEL_LOCAL_VIEWER,local_viewer);
+			
+			int two_side;
+			if(SceneLight.isTwo_side()){
+				two_side=GL.GL_TRUE;
+			}
+			else{
+				two_side=GL.GL_FALSE;
+			}
+			gl.glLightModeli( GL.GL_LIGHT_MODEL_TWO_SIDE, two_side);
 
-			gl.glLightModeli( GL.GL_LIGHT_MODEL_LOCAL_VIEWER, 
-					//GL.GL_TRUE );
-					GL.GL_FALSE );
-
-			gl.glLightModeli( GL.GL_LIGHT_MODEL_TWO_SIDE, 
-					//GL.GL_TRUE );
-					GL.GL_FALSE );
-
+			//end lighting setup
+			
 			scene.initModels(gl, glu);
 		}
 
