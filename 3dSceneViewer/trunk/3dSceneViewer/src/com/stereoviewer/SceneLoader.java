@@ -16,7 +16,8 @@ public class SceneLoader {
 
 	/**
 	 * Parses the xlm file at the path parameter using the dom api and creates
-	 * a scene object from the xlm file and returns it
+	 * a scene object from the xlm file and returns it, also sets up lights and lighting
+	 * appropriately
 	 * 
 	 * @param path the path to the scene file to be loaded
 	 */
@@ -89,20 +90,20 @@ public class SceneLoader {
 		String temp;
 		
 		temp= getTextValue(obj,"GL_LIGHT_MODEL_LOCAL_VIEWER");
-		if(temp.equalsIgnoreCase("on")){
+		if(temp.equalsIgnoreCase(Scene.on)){
 			SceneLight.setLocal_viewer(true);
 		}
-		else if(temp.equalsIgnoreCase("off")){
+		else if(temp.equalsIgnoreCase(Scene.off)){
 			SceneLight.setLocal_viewer(false);
 		}else{
 			throw new Exception("Invalid Scene File at GL_LIGHT_MODEL_LOCAL_VIEWER, must have on or off value, defaulting to off");
 		}
 		
 		temp= getTextValue(obj,"GL_LIGHT_MODEL_TWO_SIDE");
-		if(temp.equalsIgnoreCase("on")){
+		if(temp.equalsIgnoreCase(Scene.on)){
 			SceneLight.setTwo_side(true);
 		}
-		else if(temp.equalsIgnoreCase("off")){
+		else if(temp.equalsIgnoreCase(Scene.off)){
 			SceneLight.setTwo_side(false);
 		}else{
 			throw new Exception("Invalid Scene File at GL_LIGHT_MODEL_TWO_SIDE, must have on or off value, defaulting to off");

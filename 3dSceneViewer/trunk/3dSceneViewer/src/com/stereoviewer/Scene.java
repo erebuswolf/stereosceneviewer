@@ -18,6 +18,8 @@ public class Scene {
 
 	///reserved string keyword for knowing whether the object is a child of the scene
 	public static final String rootName="ROOT";
+	public static final String on="on";
+	public static final String off="off";
 	///camera of the scene
 	private Camera camera=null;
 	///the title for the scene
