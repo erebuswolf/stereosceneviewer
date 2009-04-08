@@ -35,8 +35,8 @@
     
     <Camera>
         <FieldOfView>45</FieldOfView>
-        <NearClippingPlane>1</NearClippingPlane>
-        <FarClippingPlane>100</FarClippingPlane>
+        <NearClippingPlane>.1</NearClippingPlane>
+        <FarClippingPlane>500</FarClippingPlane>
         <IntraOcularDistance>1</IntraOcularDistance>
         <PositionX>0</PositionX>
         <PositionY>0</PositionY>

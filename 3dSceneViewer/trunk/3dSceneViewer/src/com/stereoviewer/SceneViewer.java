@@ -1,5 +1,7 @@
 package com.stereoviewer;
 
+import java.io.IOException;
+
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
@@ -26,14 +28,15 @@ public class SceneViewer extends JFrame{
 
 	private FPSAnimator animator;
 
+	private SceneController controller;
+
 	/**
 	 * 
 	 */
 	public SceneViewer()
 	{
 		super();
-		scene=SceneLoader.loadScene(scenePath);
-		//		scene.loadScene(path);
+		loadScene(scenePath);
 		this.setTitle(scene.getTitle());
 		this.setSize(600,600);
 		init();
@@ -47,11 +50,53 @@ public class SceneViewer extends JFrame{
 	public SceneViewer( int width, int height)
 	{
 		super();
-		scene=SceneLoader.loadScene(scenePath);
+		loadScene(scenePath);
 		this.setTitle(scene.getTitle());
 		this.setSize(width,height);
 		init();
 	}
+
+	/**
+	 * 
+	 * @param port
+	 */
+	public SceneViewer( int port)
+	{
+		super();
+		loadScene(scenePath);
+		this.setTitle(scene.getTitle());
+		this.setSize(600,600);
+		try {
+			controller=new SceneController(port,this);
+			controller.start();
+		} catch (IOException e) {
+			System.out.println("ERROR: creating socket");
+			e.printStackTrace();
+		}
+		init();
+	}
+	/**
+	 * 
+	 * @param width
+	 * @param height
+	 * @param port
+	 */
+	public SceneViewer( int width, int height, int port)
+	{
+		super();
+		loadScene(scenePath);
+		this.setTitle(scene.getTitle());
+		this.setSize(width,height);
+		try {
+			controller=new SceneController(port,this);
+			controller.start();
+		} catch (IOException e) {
+			System.out.println("ERROR: creating socket");
+			e.printStackTrace();
+		}
+		init();
+	}
+
 
 	/**
 	 * initializes the window and gl settings
@@ -71,18 +116,48 @@ public class SceneViewer extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
-
+	public void loadScene(String path){
+		scene=SceneLoader.loadScene(scenePath);
+	}
 	public Scene getScene() {
 		return scene;
 	}
+
+	public void quit(){
+		controller.setQuit(true);
+		try {
+			//give the controller 2 seconds to close
+			controller.join(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.dispose();
+	}
+
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		SceneViewer viewer= new SceneViewer();
+		if(args.length>0){
+			if(args.length==1){
+				SceneViewer viewer= new SceneViewer(Integer.parseInt(args[0]));
+			}
+			else if(args.length==3){
+				SceneViewer viewer= new SceneViewer(Integer.parseInt(args[0]),Integer.parseInt(args[1]),Integer.parseInt(args[2]));
+			}
+		}
+		else{
+			SceneViewer viewer= new SceneViewer();
+		}
 	}
+
+
+
+
+
+
 
 	/**
 	 * class that responds when an GLEvent is fired
@@ -100,7 +175,7 @@ public class SceneViewer extends JFrame{
 		public void display(GLAutoDrawable gLDrawable) {
 			// TODO Auto-generated method stub
 			final GL gl = gLDrawable.getGL();
-			scene.draw(gl, glu, glut);	
+			scene.draw(gl, glu, glut);
 		}
 
 		public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
@@ -117,14 +192,14 @@ public class SceneViewer extends JFrame{
 			glut = new GLUT();
 
 			//Start lighting setup
-			
+
 			//lighting stuff
 			gl.glEnable(GL.GL_LIGHTING);
 			gl.glEnable(GL.GL_COLOR_MATERIAL);
-			
+
 			// make sure that this line is copied into the change ambient lighting method
 			gl.glLightModelfv( GL.GL_LIGHT_MODEL_AMBIENT,SceneLight.getGlobalLighting(), 0 );
-			
+
 
 			// make sure that these lines are copied into the change viewer model lighting methods
 			int local_viewer;
@@ -135,7 +210,7 @@ public class SceneViewer extends JFrame{
 				local_viewer=GL.GL_FALSE;
 			}
 			gl.glLightModeli( GL.GL_LIGHT_MODEL_LOCAL_VIEWER,local_viewer);
-			
+
 			int two_side;
 			if(SceneLight.isTwo_side()){
 				two_side=GL.GL_TRUE;
@@ -146,7 +221,7 @@ public class SceneViewer extends JFrame{
 			gl.glLightModeli( GL.GL_LIGHT_MODEL_TWO_SIDE, two_side);
 
 			//end lighting setup
-			
+
 			scene.initModels(gl, glu);
 		}
 

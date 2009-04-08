@@ -27,9 +27,10 @@ public class Object3D {
 	private Vector3d position;
 	private Vector3d rotationVector;
 	private double rotationAngle;
-	
+
 	private Vector3d scale;
 
+	private boolean draw=true;
 
 	//need a model class implementation
 	private OBJScene model;
@@ -57,9 +58,9 @@ public class Object3D {
 		position=new Vector3d(posx,posy,posz);
 		rotationVector=new Vector3d(rotx,roty,rotz);
 		this.rotationAngle=rotationAngle;
-		
+
 		scale=new Vector3d(scalex, scaley, scalez);
-		
+
 		model=new OBJScene();
 	}
 
@@ -73,17 +74,18 @@ public class Object3D {
 	{
 		gl.glPushMatrix();
 		//draw this object
+
 		gl.glTranslated(position.getI(), position.getJ(), position.getK());
 		gl.glRotated(rotationAngle, rotationVector.getI(), rotationVector.getJ(), rotationVector.getK());
 
-//		glut.glutWireSphere(1, 20, 20);
 		
 		//draw the model
-
-		gl.glPushMatrix();
-		gl.glScaled(scale.getI(), scale.getJ(), scale.getK());
-		model.draw(gl, glu, glut);
-		gl.glPopMatrix();
+		if(draw){
+			gl.glPushMatrix();
+			gl.glScaled(scale.getI(), scale.getJ(), scale.getK());
+			model.draw(gl, glu, glut);
+			gl.glPopMatrix();
+		}
 		
 		ListIterator <Object3D> runner=children.listIterator();
 		while(runner.hasNext())
@@ -117,9 +119,10 @@ public class Object3D {
 	 * @param posy
 	 * @param posz
 	 */
-	public void setRotation(double rotx,double roty,double rotz)
+	public void setRotation(double rotx,double roty,double rotz, double angle)
 	{
 		rotationVector=new Vector3d(rotx,roty,rotz);
+		rotationAngle=angle;
 	}
 
 	public String getName() {
