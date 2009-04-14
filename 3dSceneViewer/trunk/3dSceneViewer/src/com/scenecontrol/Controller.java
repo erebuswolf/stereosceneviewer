@@ -1,6 +1,9 @@
 package com.scenecontrol;
+
+
 import java.net.*;
 import java.io.*;
+
 public class Controller {
 	private boolean bufferCommands=true;
 	private Socket socket=null;
