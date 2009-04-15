@@ -18,6 +18,11 @@ public class Controller {
 		socket=new Socket("127.0.0.1",port);
 		init();
 	}
+	public Controller() throws UnknownHostException, IOException {
+		int port=4567;
+		socket=new Socket("127.0.0.1",port);
+		init();
+	}
 	private void init() throws IOException{
 		if(socket.isConnected()){
 			output=new DataOutputStream(socket.getOutputStream());

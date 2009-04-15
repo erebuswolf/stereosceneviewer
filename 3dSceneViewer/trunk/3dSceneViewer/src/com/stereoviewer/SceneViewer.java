@@ -39,6 +39,14 @@ public class SceneViewer extends JFrame{
 		loadScene(scenePath);
 		this.setTitle(scene.getTitle());
 		this.setSize(600,600);
+		int port=6789;
+		try {
+			controller=new SceneController(port,this);
+			controller.start();
+		} catch (IOException e) {
+			System.out.println("ERROR: creating socket");
+			e.printStackTrace();
+		}
 		init();
 	}
 
@@ -53,6 +61,14 @@ public class SceneViewer extends JFrame{
 		loadScene(scenePath);
 		this.setTitle(scene.getTitle());
 		this.setSize(width,height);
+		int port=6789;
+		try {
+			controller=new SceneController(port,this);
+			controller.start();
+		} catch (IOException e) {
+			System.out.println("ERROR: creating socket");
+			e.printStackTrace();
+		}
 		init();
 	}
 
