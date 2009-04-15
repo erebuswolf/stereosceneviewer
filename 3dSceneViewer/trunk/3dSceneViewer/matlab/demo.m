@@ -14,18 +14,21 @@ clear
 javaaddpath /Users/jesse/programs/BMEProject/3dSceneViewer/app/SceneViewer.jar;
 %call the method that creates the SceneController Object.
 controller=SceneViewer(6789);
-
+display('created controller');
 %run a short demo
 %load the demo scene
-
+controller.loadScene('data/Scene1.xml');
+controller.flushCommands();
 %make things move around in the demo scene
 i=0
-while (i<200000)
+while (i<20000)
     controller.setObjectRotation('ball1', 0, 1,0,i/10.);
 	controller.setObjectRotation('ball2', 1, 0,0,i/10.);
     controller.flushCommands();
     i=i+1;
 end
+controller.quit();
+controller.flushCommands();
 %close the controller when you are done with the program
 controller.close();
 end

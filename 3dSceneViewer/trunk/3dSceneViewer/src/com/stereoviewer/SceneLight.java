@@ -52,9 +52,12 @@ public class SceneLight {
 	******************member/object section ******************************
 	*/
 	private String name;
+	private int light_number;
 	private Vector3d position;
 	private Vector3d rotationVector;
 	private double rotationAngle;
+	private double spot_Cutoff;
+	//3 color values, ambient, diffuse and specular
 	
 	
 }

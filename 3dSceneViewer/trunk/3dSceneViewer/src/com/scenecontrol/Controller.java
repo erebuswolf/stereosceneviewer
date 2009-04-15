@@ -36,8 +36,12 @@ public class Controller {
 		}
 	}
 
-	public void loadScene(String path){
+	public void loadScene(String path) throws IOException{
+		commands+=Command.loadScene+" "+path+Command.commandSeperator;
 
+		if(!bufferCommands){
+			flushCommands();
+		}
 	}
 
 	public void setObjectPosition(String name, double x, double y, double z) throws IOException{

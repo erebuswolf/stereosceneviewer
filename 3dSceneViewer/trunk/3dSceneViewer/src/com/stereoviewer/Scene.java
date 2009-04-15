@@ -15,6 +15,10 @@ import com.sun.opengl.util.GLUT;
  *
  */
 public class Scene {
+	
+	public static Scene emptyScene(){
+		return new Scene();
+	}
 
 	///reserved string keyword for knowing whether the object is a child of the scene
 	public static final String rootName="ROOT";
@@ -41,6 +45,13 @@ public class Scene {
 	 */
 	private LinkedList <Object3D> allObjects=new LinkedList <Object3D> ();
 
+	/**
+	 * Creates an empty blank scene 
+	 */
+	public Scene(){
+		this.title="empty scene";
+		this.camera=new Camera(0, 0,-10, 0, 0,0, 0, 1, 0, 45, .01, 50,0);
+	}
 	/**
 	 * Sets the title and camera for the scene. Goes through all the objects
 	 * in the scene and adds them to a hashtable. Then goes through that list again

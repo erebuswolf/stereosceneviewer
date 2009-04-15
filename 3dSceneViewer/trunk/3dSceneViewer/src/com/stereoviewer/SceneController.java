@@ -32,6 +32,7 @@ public class SceneController extends Thread{
 	public void run(){
 		try {
 			init();
+			System.out.println("Client connected");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

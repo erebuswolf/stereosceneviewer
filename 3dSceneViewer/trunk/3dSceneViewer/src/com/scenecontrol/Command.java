@@ -24,6 +24,7 @@ public class Command {
 	public static final String setLightValues="setLightValues";
 	public static final String setLightPosition="setLightPosition";
 	public static final String setLightRotation="setLightRotation";
+	public static final String loadScene="loadScene";
 	public static final String quit="quit";
 
 	/**
@@ -38,8 +39,17 @@ public class Command {
 		for(int i=0;i<parsed.length;i++){
 			parsed[i]=parsed[i].trim();
 		}
-//object position command
-		if(parsed[0].equals(setObjectPosition)){
+		//load scene
+		if(parsed[0].equals(loadScene)){
+			String path="";
+			for(int i=1;i<parsed.length;i++){
+				path+=parsed[i]+" ";
+			}
+			path=path.trim();
+			sceneViewer.loadScene(path);
+		}
+		//object position command
+		else if(parsed[0].equals(setObjectPosition)){
 			String tochange=parsed[1];
 			double a=Double.valueOf(parsed[2]);
 			double b=Double.valueOf(parsed[3]);
@@ -53,7 +63,9 @@ public class Command {
 		}
 		//object rotation command
 		else if(parsed[0].equals(setObjectRotation)){
-			sceneViewer.getScene().getObject(parsed[1]).setRotation(Double.valueOf(parsed[2]), Double.valueOf(parsed[3]), Double.valueOf(parsed[4]),Double.valueOf(parsed[5]));
+			if(sceneViewer.getScene().getObject(parsed[1])!=null){
+				sceneViewer.getScene().getObject(parsed[1]).setRotation(Double.valueOf(parsed[2]), Double.valueOf(parsed[3]), Double.valueOf(parsed[4]),Double.valueOf(parsed[5]));
+			}
 		}
 		//quit command
 		else if(parsed[0].equals(quit)){

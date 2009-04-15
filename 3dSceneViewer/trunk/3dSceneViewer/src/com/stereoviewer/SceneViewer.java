@@ -24,20 +24,17 @@ public class SceneViewer extends JFrame{
 
 	private Scene scene;
 
-	private final String scenePath="data/Scene1.xml";
-
 	private FPSAnimator animator;
 
 	private SceneController controller;
 
+	private GLCanvas drawArea;
 	/**
 	 * 
 	 */
 	public SceneViewer()
 	{
 		super();
-		loadScene(scenePath);
-		this.setTitle(scene.getTitle());
 		this.setSize(600,600);
 		int port=6789;
 		try {
@@ -47,7 +44,10 @@ public class SceneViewer extends JFrame{
 			System.out.println("ERROR: creating socket");
 			e.printStackTrace();
 		}
+
+		scene=Scene.emptyScene();
 		init();
+		this.setTitle(scene.getTitle());
 	}
 
 	/**
@@ -58,8 +58,6 @@ public class SceneViewer extends JFrame{
 	public SceneViewer( int width, int height)
 	{
 		super();
-		loadScene(scenePath);
-		this.setTitle(scene.getTitle());
 		this.setSize(width,height);
 		int port=6789;
 		try {
@@ -69,7 +67,10 @@ public class SceneViewer extends JFrame{
 			System.out.println("ERROR: creating socket");
 			e.printStackTrace();
 		}
+
+		scene=Scene.emptyScene();
 		init();
+		this.setTitle(scene.getTitle());
 	}
 
 	/**
@@ -79,8 +80,6 @@ public class SceneViewer extends JFrame{
 	public SceneViewer( int port)
 	{
 		super();
-		loadScene(scenePath);
-		this.setTitle(scene.getTitle());
 		this.setSize(600,600);
 		try {
 			controller=new SceneController(port,this);
@@ -89,7 +88,10 @@ public class SceneViewer extends JFrame{
 			System.out.println("ERROR: creating socket");
 			e.printStackTrace();
 		}
+
+		scene=Scene.emptyScene();
 		init();
+		this.setTitle(scene.getTitle());
 	}
 	/**
 	 * 
@@ -100,8 +102,6 @@ public class SceneViewer extends JFrame{
 	public SceneViewer( int width, int height, int port)
 	{
 		super();
-		loadScene(scenePath);
-		this.setTitle(scene.getTitle());
 		this.setSize(width,height);
 		try {
 			controller=new SceneController(port,this);
@@ -110,7 +110,10 @@ public class SceneViewer extends JFrame{
 			System.out.println("ERROR: creating socket");
 			e.printStackTrace();
 		}
+
+		scene=Scene.emptyScene();
 		init();
+		this.setTitle(scene.getTitle());
 	}
 
 
@@ -121,7 +124,7 @@ public class SceneViewer extends JFrame{
 	{
 		GLCapabilities capabilities=new GLCapabilities();
 		capabilities.setStereo(true);
-		GLCanvas drawArea=new GLCanvas(capabilities);
+		drawArea=new GLCanvas(capabilities);
 
 		animator=new FPSAnimator(drawArea,60);
 		drawArea.addGLEventListener(new Refresher());
@@ -131,9 +134,31 @@ public class SceneViewer extends JFrame{
 		this.setLocationRelativeTo(null); // Center the frame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
+		
+	}
+	
+	/**
+	 * things to do when we are reinitializing
+	 */
+	public void reinit(){
+		animator.stop();
+		this.remove(drawArea);
+		GLCapabilities capabilities=new GLCapabilities();
+		capabilities.setStereo(true);
+		drawArea=new GLCanvas(capabilities);
+
+		animator=new FPSAnimator(drawArea,60);
+		drawArea.addGLEventListener(new Refresher());
+		this.add(drawArea);
+		animator.start();
+
+		this.setVisible(true);
 	}
 	public void loadScene(String path){
-		scene=SceneLoader.loadScene(scenePath);
+		System.out.println("loading scene "+path);
+		scene=SceneLoader.loadScene(path);
+		this.setTitle(scene.getTitle());
+		reinit();
 	}
 	public Scene getScene() {
 		return scene;
@@ -143,7 +168,8 @@ public class SceneViewer extends JFrame{
 		controller.setQuit(true);
 		try {
 			//give the controller 2 seconds to close
-			controller.join(2000);
+			controller.join(1000);
+			System.exit(NORMAL);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
