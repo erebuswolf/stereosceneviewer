@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.obj.*;
 import javax.media.opengl.*;
 import javax.media.opengl.glu.GLU;
+import javax.vecmath.*;
 
 import com.sun.opengl.util.*;
 
@@ -28,9 +29,9 @@ This Java OBJ Loader DOES NOT support:
 
 public class OBJScene
 {
-	ArrayList <Vector3>_vertexList;
-	ArrayList<Vector3> _normalList;
-	ArrayList <Vector3>_texcoordList;
+	ArrayList <Vector3f>_vertexList;
+	ArrayList<Vector3f> _normalList;
+	ArrayList <Vector3f>_texcoordList;
 	ArrayList <OBJMesh>_meshList;
 
 	private WavefrontObject _obj;
@@ -45,9 +46,9 @@ public class OBJScene
 
 	public OBJScene()
 	{
-		_vertexList = new ArrayList<Vector3>();
-		_normalList = new ArrayList<Vector3>();
-		_texcoordList = new ArrayList<Vector3>();
+		_vertexList = new ArrayList<Vector3f>();
+		_normalList = new ArrayList<Vector3f>();
+		_texcoordList = new ArrayList<Vector3f>();
 		
 		_meshList = new ArrayList<OBJMesh>();
 	}
@@ -75,9 +76,9 @@ public class OBJScene
 			OBJMesh mesh = new OBJMesh();
 			mesh.setName( g.getName() );
 
-			mesh.material.ambient = new Vector3( gm.getKa().getX(), gm.getKa().getY(), gm.getKa().getZ() );
-			mesh.material.diffuse = new Vector3( gm.getKd().getX(), gm.getKd().getY(), gm.getKd().getZ() );
-			mesh.material.specular = new Vector3( gm.getKs().getX(), gm.getKs().getY(), gm.getKs().getZ() );
+			mesh.material.ambient = new Color3f( gm.getKa().getX(), gm.getKa().getY(), gm.getKa().getZ() );
+			mesh.material.diffuse = new Color3f( gm.getKd().getX(), gm.getKd().getY(), gm.getKd().getZ() );
+			mesh.material.specular = new Color3f( gm.getKs().getX(), gm.getKs().getY(), gm.getKs().getZ() );
 
 			if( gm.texName != null && gm.texName.length() > 0 )
 			{
@@ -110,19 +111,19 @@ public class OBJScene
 			for( int vi=0; vi<obj.getVertices().size(); vi++ )
 			{
 				Vertex v = (Vertex)obj.getVertices().get( vi );
-				_vertexList.add( new Vector3(v.getX(), v.getY(), v.getZ()) );
+				_vertexList.add( new Vector3f(v.getX(), v.getY(), v.getZ()) );
 			}
 
 			for( int vi=0; vi<obj.getNormals().size(); vi++ )
 			{
 				Vertex v = (Vertex)obj.getNormals().get( vi );
-				_normalList.add( new Vector3(v.getX(), v.getY(), v.getZ()) );
+				_normalList.add( new Vector3f(v.getX(), v.getY(), v.getZ()) );
 			}
 
 			for( int vi=0; vi<obj.getTextures().size(); vi++ )
 			{
 				TextureCoordinate tc = (TextureCoordinate)obj.getTextures().get( vi );
-				_texcoordList.add( new Vector3( tc.getU(), tc.getV(), tc.getW()) );
+				_texcoordList.add( new Vector3f( tc.getU(), tc.getV(), tc.getW()) );
 			}
 
 			/*for( int vi=0; vi<g.indices.size(); vi++ )
@@ -161,9 +162,9 @@ public class OBJScene
 
 	public void draw(GL gl, GLU glu, GLUT glut)
 	{
-		Vector3 n1, n2, n3;
-		Vector3 p1, p2, p3;
-		Vector3 tc1=null, tc2=null, tc3=null;
+		Vector3f n1, n2, n3;
+		Vector3f p1, p2, p3;
+		Vector3f tc1=null, tc2=null, tc3=null;
 
 		// Render all scene
 		for( int i=0; i<_meshList.size(); i++ )
@@ -184,14 +185,14 @@ public class OBJScene
 				gl.glBindTexture( GL.GL_TEXTURE_2D, 0 );
 			}
 
-			gl.glMaterialfv( GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, new float[]{m.material.ambient.x, m.material.ambient.y, m.material.ambient.z, 1.0f}, 0 ); 
-			gl.glMaterialfv( GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, new float[]{m.material.diffuse.x, m.material.diffuse.y, m.material.diffuse.z, 1.0f}, 0 ); 
-			gl.glMaterialfv( GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, new float[]{m.material.specular.x, m.material.specular.y, m.material.specular.z, 1.0f}, 0 ); 
+			gl.glMaterialfv( GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT, new float[]{m.material.ambient.x, m.material.ambient.y, m.material.ambient.z, m.material.alpha}, 0 ); 
+			gl.glMaterialfv( GL.GL_FRONT_AND_BACK, GL.GL_DIFFUSE, new float[]{m.material.diffuse.x, m.material.diffuse.y, m.material.diffuse.z, m.material.alpha}, 0 ); 
+			gl.glMaterialfv( GL.GL_FRONT_AND_BACK, GL.GL_SPECULAR, new float[]{m.material.specular.x, m.material.specular.y, m.material.specular.z, m.material.alpha}, 0 ); 
 			gl.glMateriali( GL.GL_FRONT_AND_BACK,GL.GL_SHININESS, 128 );
 
 			// render triangles.. this is too basic. should be optimized
 			gl.glBegin( GL.GL_TRIANGLES );
-			gl.glColor4f( m.material.diffuse.x, m.material.diffuse.y, m.material.diffuse.z, 1 ); 
+			gl.glColor4f( m.material.diffuse.x, m.material.diffuse.y, m.material.diffuse.z, m.material.alpha ); 
 			boolean has_texture=false;
 			if(_texcoordList!=null&&_texcoordList.size()>0)
 			{
@@ -201,18 +202,18 @@ public class OBJScene
 			{
 				OBJFace f = (OBJFace)m.faceList.get( fi );
 
-				p1 = (Vector3)_vertexList.get(f.a);
-				p2 = (Vector3)_vertexList.get(f.b);
-				p3 = (Vector3)_vertexList.get(f.c);
-				n1 = (Vector3)_normalList.get(f.na);
-				n2 = (Vector3)_normalList.get(f.nb);
-				n3 = (Vector3)_normalList.get(f.nc);
+				p1 = (Vector3f)_vertexList.get(f.a);
+				p2 = (Vector3f)_vertexList.get(f.b);
+				p3 = (Vector3f)_vertexList.get(f.c);
+				n1 = (Vector3f)_normalList.get(f.na);
+				n2 = (Vector3f)_normalList.get(f.nb);
+				n3 = (Vector3f)_normalList.get(f.nc);
 
 				//these should only be drawn if there are texture 2d coordinates
 				if(has_texture){
-					tc1 = (Vector3)_texcoordList.get(f.ta);
-					tc2 = (Vector3)_texcoordList.get(f.tb);
-					tc3 = (Vector3)_texcoordList.get(f.tc);
+					tc1 = (Vector3f)_texcoordList.get(f.ta);
+					tc2 = (Vector3f)_texcoordList.get(f.tb);
+					tc3 = (Vector3f)_texcoordList.get(f.tc);
 				}
 
 				gl.glNormal3f( n1.x, n1.y, n1.z );
@@ -251,7 +252,7 @@ public class OBJScene
 
       for( int vi=0; vi<m.vertexList.size(); vi++ )
       {
-        Vector3 v = (Vector3)m.vertexList.get(vi);
+        Vector3f v = (Vector3f)m.vertexList.get(vi);
         float x = v.x;
         float y = v.y;
         float z = v.z;

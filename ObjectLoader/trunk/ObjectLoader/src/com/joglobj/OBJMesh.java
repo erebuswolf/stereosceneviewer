@@ -1,14 +1,14 @@
 package com.joglobj;
 
 import java.util.ArrayList;
-
+import javax.vecmath.*;
 public class OBJMesh
 {
 	String name;
 	OBJMaterial material;  
-	ArrayList <Vector3>vertexList;
-	ArrayList <Vector3>texcoordList;
-	ArrayList <Vector3>normalList;
+	ArrayList <Vector3f>vertexList;
+	ArrayList <Vector3f>texcoordList;
+	ArrayList <Vector3f>normalList;
 	ArrayList <OBJFace>faceList;
 
 	public OBJMaterial getMaterial() {
@@ -21,9 +21,9 @@ public class OBJMesh
 
 	OBJMesh()
 	{
-		vertexList = new ArrayList<Vector3>();
-		texcoordList = new ArrayList<Vector3>();
-		normalList = new ArrayList<Vector3>();
+		vertexList = new ArrayList<Vector3f>();
+		texcoordList = new ArrayList<Vector3f>();
+		normalList = new ArrayList<Vector3f>();
 		faceList = new ArrayList<OBJFace>();
 		material = new OBJMaterial();
 	}
@@ -33,17 +33,17 @@ public class OBJMesh
 		name = n;
 	}
 
-	void addVertex( Vector3 v )
+	void addVertex( Vector3f v )
 	{
 		vertexList.add( v );
 	}
 
-	void addTexCoord( Vector3 v )
+	void addTexCoord( Vector3f v )
 	{
 		texcoordList.add( v );
 	}
 
-	void addNormal( Vector3 v )
+	void addNormal( Vector3f v )
 	{
 		normalList.add( v );
 	}
