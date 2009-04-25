@@ -6,6 +6,7 @@ import java.util.ListIterator;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
+import javax.vecmath.Vector3d;
 
 import com.sun.opengl.util.GLUT;
 
@@ -75,14 +76,14 @@ public class Object3D {
 		gl.glPushMatrix();
 		//draw this object
 
-		gl.glTranslated(position.getI(), position.getJ(), position.getK());
-		gl.glRotated(rotationAngle, rotationVector.getI(), rotationVector.getJ(), rotationVector.getK());
+		gl.glTranslated(position.x, position.y, position.z);
+		gl.glRotated(rotationAngle, rotationVector.x, rotationVector.y, rotationVector.z);
 
 		
 		//draw the model
 		if(draw){
 			gl.glPushMatrix();
-			gl.glScaled(scale.getI(), scale.getJ(), scale.getK());
+			gl.glScaled(scale.x, scale.y, scale.z);
 			model.draw(gl, glu, glut);
 			gl.glPopMatrix();
 		}
@@ -137,6 +138,15 @@ public class Object3D {
 		return parent;
 	}
 
+	
+	public void setScale(Vector3d scale) {
+		this.scale = scale;
+	}
+
+	public Vector3d getScale() {
+		return scale;
+	}
+
 	/**
 	 * adds the passed Object3D argument to this Object3D's child list
 	 * @param child the object to be added to the child list
@@ -157,4 +167,9 @@ public class Object3D {
 			System.out.println("Parent does not exist");
 		}
 	}
+
+	public OBJScene getModel() {
+		return model;
+	}
+	
 }

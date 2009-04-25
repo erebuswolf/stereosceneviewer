@@ -1,5 +1,7 @@
 package com.stereoviewer;
 
+import javax.vecmath.Vector3d;
+
 public class SceneLight {
 
 	/*

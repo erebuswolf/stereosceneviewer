@@ -58,6 +58,42 @@ public class Controller {
 			flushCommands();
 		}
 	}
+	public void setObjectScale(String name, double x, double y, double z) throws IOException{
+		commands+=Command.setObjectScale+" "+name+" "+x+" "+y+" "+z+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setObjectColorAmbient(String name, float i, float j, float k) throws IOException{
+		commands+=Command.setObjectColorAmbient+" "+name+" "+i+" "+j+" "+k+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setObjectColorDiffuse(String name, float i, float j, float k) throws IOException{
+		commands+=Command.setObjectColorDiffuse+" "+name+" "+i+" "+j+" "+k+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setObjectColorSpecular(String name, float i, float j, float k) throws IOException{
+		commands+=Command.setObjectColorSpecular+" "+name+" "+i+" "+j+" "+k+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setObjectTransparency(String name, float i) throws IOException{
+		commands+=Command.setObjectTransparency+" "+name+" "+i+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	
 	/**
 	 * quits the application and closes the socket
 	 * @throws IOException
@@ -91,6 +127,15 @@ public class Controller {
 	public static void main(String args[]) throws InterruptedException{
 		try {
 			Controller controller=new Controller(6789);
+			controller.loadScene("data/Scene1.xml");
+			controller.flushCommands();
+
+			controller.setObjectTransparency("ball2", 0.5f);
+			controller.setObjectColorDiffuse("ball2", 1, 0, 0);
+			controller.setObjectColorAmbient("ball2", 1, 0, 0);
+			controller.setObjectColorSpecular("ball2", 1, 0, 0);
+			controller.flushCommands();
+
 			int i=0;
 			while(true)
 			{

@@ -1,6 +1,7 @@
 package com.stereoviewer;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
+import javax.vecmath.Vector3d;
 
 
 import com.sun.opengl.util.GLUT;
@@ -99,10 +100,18 @@ public class Camera {
 	public void translateLeftEye(GL gl, GLU glu, GLUT glut)
 	{
 		//calculate the right vector
-		Vector3d left=Vector3d.crossProduct(cameraUp, Vector3d.add(cameraPosition,Vector3d.scalarMult(cameraTarget, -1) ));
+		
+		Vector3d left=new Vector3d();
+		Vector3d temp1=(Vector3d)cameraTarget.clone();
+		temp1.scale(-1);
+		Vector3d temp2=(Vector3d)cameraPosition.clone();
+		
+		temp2.add(temp1);
+		left.cross(cameraUp,temp2);
+		
 		left.normalize();
 		left.scale(-eyespread/2.);
-		glu.gluLookAt(left.getI() +cameraPosition.getI(), left.getJ()+cameraPosition.getJ(), left.getK()+cameraPosition.getK(), left.getI() +cameraTarget.getI(),left.getJ() + cameraTarget.getJ(),left.getK() + cameraTarget.getK(), cameraUp.getI(), cameraUp.getJ(), cameraUp.getK());
+		glu.gluLookAt(left.x +cameraPosition.x, left.y+cameraPosition.y, left.z+cameraPosition.z, left.x +cameraTarget.x,left.y + cameraTarget.y,left.z + cameraTarget.z, cameraUp.x, cameraUp.y, cameraUp.z);
 	}
 	/**
 	 * performs the gl camera transformations for the right eye
@@ -110,10 +119,17 @@ public class Camera {
 	public void translateRightEye(GL gl, GLU glu, GLUT glut)
 	{
 		//calculate the right vector
-		Vector3d right=Vector3d.crossProduct(cameraUp, Vector3d.add(cameraPosition,Vector3d.scalarMult(cameraTarget, -1) ));
+		Vector3d right=new Vector3d();
+		Vector3d temp1=(Vector3d)cameraTarget.clone();
+		temp1.scale(-1);
+		Vector3d temp2=(Vector3d)cameraPosition.clone();
+		
+		temp2.add(temp1);
+		right.cross(cameraUp,temp2);
+		
 		right.normalize();
 		right.scale(eyespread/2.);
-		glu.gluLookAt(right.getI() +cameraPosition.getI(), right.getJ()+cameraPosition.getJ(), right.getK()+cameraPosition.getK(),right.getI() + cameraTarget.getI(), right.getJ() +cameraTarget.getJ(), right.getK() +cameraTarget.getK(), cameraUp.getI(), cameraUp.getJ(), cameraUp.getK());
+		glu.gluLookAt(right.x +cameraPosition.x, right.y+cameraPosition.y, right.z+cameraPosition.z,right.x + cameraTarget.x, right.y +cameraTarget.y, right.z +cameraTarget.z, cameraUp.x, cameraUp.y, cameraUp.z);
 	}
 
 	public double getZnear() {

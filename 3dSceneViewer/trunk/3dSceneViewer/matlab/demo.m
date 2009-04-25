@@ -17,10 +17,12 @@ controller=SceneViewer(6789);
 display('created controller');
 %run a short demo
 %load the demo scene
-controller.loadScene('data/Scene1.xml');
+controller.loadScene('/Users/jesse/programs/BMEProject/3dSceneViewer/data/Scene1.xml');
 controller.flushCommands();
 %make things move around in the demo scene
-i=0
+
+display('scene loading');
+i=0;
 while (i<20000)
     controller.setObjectRotation('ball1', 0, 1,0,i/10.);
 	controller.setObjectRotation('ball2', 1, 0,0,i/10.);

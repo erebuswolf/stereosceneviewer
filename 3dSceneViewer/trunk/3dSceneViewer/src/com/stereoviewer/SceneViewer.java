@@ -228,6 +228,7 @@ public class SceneViewer extends JFrame{
 		public void init(GLAutoDrawable gLDrawable) {
 			GL gl = gLDrawable.getGL();
 			gl.glShadeModel(GL.GL_SMOOTH);              // Enable Smooth Shading
+			gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);			// Set The Blending Function For Translucency
 			float[] temp=SceneLight.getClear_color();
 			gl.glClearColor(temp[0], temp[1],temp[2], temp[3]);
 			glu = new GLU();
@@ -238,8 +239,13 @@ public class SceneViewer extends JFrame{
 			//lighting stuff
 			gl.glEnable(GL.GL_LIGHTING);
 			gl.glEnable(GL.GL_COLOR_MATERIAL);
-
+			gl.glEnable(GL.GL_DEPTH_TEST);
+			gl.glEnable(GL.GL_DEPTH_BUFFER_BIT);
+			
+			gl.glEnable (GL.GL_BLEND);
+			
 			// make sure that this line is copied into the change ambient lighting method
+		
 			gl.glLightModelfv( GL.GL_LIGHT_MODEL_AMBIENT,SceneLight.getGlobalLighting(), 0 );
 
 
