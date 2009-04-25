@@ -3,6 +3,7 @@ package com.stereoviewer;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.vecmath.Color4f;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -71,20 +72,11 @@ public class SceneLoader {
 	 * @throws Exception 
 	 */
 	private static void getGlobalLighting(Element obj) throws Exception{
-		float [] lighting=new float[4];
+		Color4f lighting=new Color4f((float)getDoubleValue(obj,"ColorR"),(float)getDoubleValue(obj,"ColorG"),(float)getDoubleValue(obj,"ColorB"),(float)getDoubleValue(obj,"ColorA"));
 
-		lighting[0]= (float)getDoubleValue(obj,"ColorR");
-		lighting[1]= (float)getDoubleValue(obj,"ColorG");
-		lighting[2]= (float)getDoubleValue(obj,"ColorB");
-		lighting[3]= (float)getDoubleValue(obj,"ColorA");
 		SceneLight.setGlobalLighting(lighting);
 		
-		float [] clear_color=new float[4];
-
-		clear_color[0]= (float)getDoubleValue(obj,"ClearColorR");
-		clear_color[1]= (float)getDoubleValue(obj,"ClearColorG");
-		clear_color[2]= (float)getDoubleValue(obj,"ClearColorB");
-		clear_color[3]= (float)getDoubleValue(obj,"ClearColorA");
+		Color4f clear_color=new Color4f((float)getDoubleValue(obj,"ClearColorR"),(float)getDoubleValue(obj,"ClearColorG"),(float)getDoubleValue(obj,"ClearColorB"),(float)getDoubleValue(obj,"ClearColorA"));
 		SceneLight.setClear_color(clear_color);
 		
 		String temp;

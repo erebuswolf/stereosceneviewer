@@ -13,6 +13,7 @@ import com.sun.opengl.util.FPSAnimator;
 import com.sun.opengl.util.GLUT;
 
 import javax.swing.JFrame;
+import javax.vecmath.Color4f;
 
 /**
  * Class for the window the scene is seen in
@@ -21,6 +22,8 @@ import javax.swing.JFrame;
  */
 public class SceneViewer extends JFrame{
 	private static final long serialVersionUID = 1L;
+
+	private static boolean do3d=false;
 
 	private Scene scene;
 
@@ -123,7 +126,9 @@ public class SceneViewer extends JFrame{
 	public void init()
 	{
 		GLCapabilities capabilities=new GLCapabilities();
-		capabilities.setStereo(true);
+		if(do3d){
+			capabilities.setStereo(true);
+		}
 		drawArea=new GLCanvas(capabilities);
 
 		animator=new FPSAnimator(drawArea,60);
@@ -134,9 +139,9 @@ public class SceneViewer extends JFrame{
 		this.setLocationRelativeTo(null); // Center the frame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
-		
+
 	}
-	
+
 	/**
 	 * things to do when we are reinitializing
 	 */
@@ -144,7 +149,9 @@ public class SceneViewer extends JFrame{
 		animator.stop();
 		this.remove(drawArea);
 		GLCapabilities capabilities=new GLCapabilities();
-		capabilities.setStereo(true);
+		if(do3d){
+			capabilities.setStereo(true);
+		}
 		drawArea=new GLCanvas(capabilities);
 
 		animator=new FPSAnimator(drawArea,60);
@@ -229,8 +236,8 @@ public class SceneViewer extends JFrame{
 			GL gl = gLDrawable.getGL();
 			gl.glShadeModel(GL.GL_SMOOTH);              // Enable Smooth Shading
 			gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);			// Set The Blending Function For Translucency
-			float[] temp=SceneLight.getClear_color();
-			gl.glClearColor(temp[0], temp[1],temp[2], temp[3]);
+			Color4f temp=SceneLight.getClear_color();
+			gl.glClearColor(temp.x,temp.y, temp.z,temp.w);
 			glu = new GLU();
 			glut = new GLUT();
 
@@ -241,12 +248,11 @@ public class SceneViewer extends JFrame{
 			gl.glEnable(GL.GL_COLOR_MATERIAL);
 			gl.glEnable(GL.GL_DEPTH_TEST);
 			gl.glEnable(GL.GL_DEPTH_BUFFER_BIT);
-			
+
 			gl.glEnable (GL.GL_BLEND);
-			
+
 			// make sure that this line is copied into the change ambient lighting method
-		
-			gl.glLightModelfv( GL.GL_LIGHT_MODEL_AMBIENT,SceneLight.getGlobalLighting(), 0 );
+			gl.glLightModelfv( GL.GL_LIGHT_MODEL_AMBIENT,SceneLight.getGlobalLightingfv(), 0 );
 
 
 			// make sure that these lines are copied into the change viewer model lighting methods
