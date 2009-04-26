@@ -16,6 +16,8 @@ public class SceneLight {
 	private static boolean local_viewer=false;
 	private static boolean two_side=false;
 	private final static int light1=GL.GL_LIGHT1;
+	
+	private static boolean GlobalValuesHaveChanged=false;
 
 	/**
 	 * Sets the global light values for the scene
@@ -57,6 +59,41 @@ public class SceneLight {
 		SceneLight.two_side = two_side;
 	}
 
+	public static void initGlobalLighting(GL gl, GLU glu){
+
+		// make sure that this line is copied into the change ambient lighting method
+		gl.glLightModelfv( GL.GL_LIGHT_MODEL_AMBIENT,getGlobalLightingfv(), 0 );
+
+		// make sure that these lines are copied into the change viewer model lighting methods
+		int local_viewer;
+		if(SceneLight.isLocal_viewer()){
+			local_viewer=GL.GL_TRUE;
+		}
+		else{
+			local_viewer=GL.GL_FALSE;
+		}
+		gl.glLightModeli( GL.GL_LIGHT_MODEL_LOCAL_VIEWER,local_viewer);
+
+		int two_side;
+		if(SceneLight.isTwo_side()){
+			two_side=GL.GL_TRUE;
+		}
+		else{
+			two_side=GL.GL_FALSE;
+		}
+		gl.glLightModeli( GL.GL_LIGHT_MODEL_TWO_SIDE, two_side);
+		
+		GlobalValuesHaveChanged=false;
+	}
+
+	public static boolean isGlobalValuesHaveChanged() {
+		return GlobalValuesHaveChanged;
+	}
+
+	public static void setGlobalValuesHaveChanged(boolean globalValuesHaveChanged) {
+		GlobalValuesHaveChanged = globalValuesHaveChanged;
+	}
+
 
 	/*
 	 ******************member/object section ******************************
@@ -65,15 +102,16 @@ public class SceneLight {
 	private int light_number;
 	private Vector3d position;
 	private Vector3d direction;	
-	Color4f ambient;
-	Color4f diffuse;
-	Color4f specular;
+	private Color4f ambient;
+	private Color4f diffuse;
+	private Color4f specular;
 	private float spot_Cutoff;
 	private boolean enable=true;
 	private float intensity;
-	float constant_attenuation_constant;
-	float linear_attenuation_constant;
-	float quad_attenuation_constant;
+	private float constant_attenuation_constant;
+	private float linear_attenuation_constant;
+	private float quad_attenuation_constant;
+	private boolean valuesHaveChanged=false;
 
 	//3 color values, ambient, diffuse and specular
 	public SceneLight(String name, int light_number, 
@@ -127,6 +165,7 @@ public class SceneLight {
 		gl.glLightf(light1+light_number, GL.GL_CONSTANT_ATTENUATION,this.constant_attenuation_constant );
 		gl.glLightf(light1+light_number, GL.GL_LINEAR_ATTENUATION,this.linear_attenuation_constant );
 		gl.glLightf(light1+light_number, GL.GL_QUADRATIC_ATTENUATION,this.quad_attenuation_constant );
+		valuesHaveChanged=false;
 	}
 	public int getLight_number() {
 		return light_number;
@@ -196,4 +235,35 @@ public class SceneLight {
 		this.specular = specular;
 	}
 
+	public float getIntensity() {
+		return intensity;
+	}
+
+	public void setIntensity(float intensity) {
+		this.intensity = intensity;
+	}
+
+	public float getConstant_attenuation_constant() {
+		return constant_attenuation_constant;
+	}
+
+	public void setConstant_attenuation_constant(float constant_attenuation_constant) {
+		this.constant_attenuation_constant = constant_attenuation_constant;
+	}
+
+	public float getLinear_attenuation_constant() {
+		return linear_attenuation_constant;
+	}
+
+	public void setLinear_attenuation_constant(float linear_attenuation_constant) {
+		this.linear_attenuation_constant = linear_attenuation_constant;
+	}
+
+	public float getQuad_attenuation_constant() {
+		return quad_attenuation_constant;
+	}
+
+	public void setQuad_attenuation_constant(float quad_attenuation_constant) {
+		this.quad_attenuation_constant = quad_attenuation_constant;
+	}
 }

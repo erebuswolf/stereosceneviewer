@@ -249,36 +249,13 @@ public class SceneViewer extends JFrame{
 			gl.glEnable(GL.GL_COLOR_MATERIAL);
 			gl.glEnable(GL.GL_DEPTH_TEST);
 			gl.glEnable(GL.GL_DEPTH_BUFFER_BIT);
-
 			gl.glEnable (GL.GL_BLEND);
 
-			// make sure that this line is copied into the change ambient lighting method
-			gl.glLightModelfv( GL.GL_LIGHT_MODEL_AMBIENT,SceneLight.getGlobalLightingfv(), 0 );
-
-
-			// make sure that these lines are copied into the change viewer model lighting methods
-			int local_viewer;
-			if(SceneLight.isLocal_viewer()){
-				local_viewer=GL.GL_TRUE;
-			}
-			else{
-				local_viewer=GL.GL_FALSE;
-			}
-			gl.glLightModeli( GL.GL_LIGHT_MODEL_LOCAL_VIEWER,local_viewer);
-
-			int two_side;
-			if(SceneLight.isTwo_side()){
-				two_side=GL.GL_TRUE;
-			}
-			else{
-				two_side=GL.GL_FALSE;
-			}
-			gl.glLightModeli( GL.GL_LIGHT_MODEL_TWO_SIDE, two_side);
-
-			//end lighting setup
-
-			scene.initModels(gl, glu);
+			SceneLight.initGlobalLighting(gl, glu);
 			scene.setLighting(gl, glu);
+			
+			//end lighting setup
+			scene.initModels(gl, glu);
 		}
 
 		public void reshape(GLAutoDrawable gLDrawable,int x, int y, int width, int height) {

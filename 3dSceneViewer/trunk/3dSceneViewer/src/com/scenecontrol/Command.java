@@ -25,12 +25,19 @@ public class Command {
 	public static final String setCameraUpVector="setCameraUpVector";//need to impliment!
 	public static final String setCameraFovNF="setCameraFovNF";//need to impliment!
 	public static final String setCameraIOD="setCameraIOD";//need to impliment!
+	
 	//light controls
 	public static final String setGlobalLightValues="setGlobalLightValues";//need to impliment!
+	public static final String setLightColorAmbient="setObjectColorAmbient";//need to impliment!
+	public static final String setLightColorDiffuse="setObjectColorDiffuse";//need to impliment!
+	public static final String setLightColorSpecular="setObjectColorSpecular";//need to impliment!
 	public static final String setLightValues="setLightValues";//need to impliment!
 	public static final String setLightPosition="setLightPosition";//need to impliment!
 	public static final String setLightRotation="setLightRotation";//need to impliment!
+	
+	
 	public static final String loadScene="loadScene";
+	
 	public static final String quit="quit";
 
 	/**
@@ -162,13 +169,7 @@ public class Command {
 			System.out.println("error object "+name+" does not exist");
 		}
 	}
-	/**
-	 * quits the application and closes the socket
-	 */
-	public static void quit(SceneViewer sceneViewer) {
-		sceneViewer.quit();
-	}
-
+	
 	public static void setObjectScale(String name, double a, double b, double c,SceneViewer sceneViewer) {
 		if(sceneViewer.getScene().getObject(name)!=null){
 			sceneViewer.getScene().getObject(name).setScale(new Vector3d(a, b, c));
@@ -177,8 +178,13 @@ public class Command {
 			System.out.println("error object "+name+" does not exist");
 		}
 	}
-
-
+	
+	/**
+	 * quits the application and closes the socket
+	 */
+	public static void quit(SceneViewer sceneViewer) {
+		sceneViewer.quit();
+	}
 
 
 	/**

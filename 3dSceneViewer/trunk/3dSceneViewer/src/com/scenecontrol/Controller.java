@@ -131,6 +131,7 @@ public class Controller {
 			controller.loadScene("data/Scene1.xml");
 			controller.flushCommands();
 
+			controller.setObjectScale("ball2", 1, 2, 1);
 			controller.setObjectTransparency("ball2", 0.5f);
 			controller.setObjectColorDiffuse("ball2", 1, 0, 0);
 			controller.setObjectColorAmbient("ball2", 1, 0, 0);
