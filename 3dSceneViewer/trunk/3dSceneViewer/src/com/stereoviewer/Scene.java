@@ -217,6 +217,12 @@ public class Scene {
 	public boolean isRenderStereo() {
 		return renderStereo;
 	}
+	public LinkedList<SceneLight> getLightList() {
+		return lightList;
+	}
+	public Hashtable<String, SceneLight> getLightHash() {
+		return lightHash;
+	}
 
 }
 
