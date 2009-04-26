@@ -26,6 +26,8 @@ public class Camera {
 	private double zfar;
 	///the Intra ocular distance, or distance between the right and left camera eyes
 	private double eyespread;
+	///flag set to true when field_of_view znear or zfar are changed so the proper updates can take place
+	private boolean changedValues=false;
 	
 	/**
 	 * 
@@ -143,6 +145,62 @@ public class Camera {
 	public double getField_of_view() {
 		return field_of_view;
 	}
+
+	public Vector3d getCameraPosition() {
+		return cameraPosition;
+	}
+
+	public void setCameraPosition(Vector3d cameraPosition) {
+		this.cameraPosition = cameraPosition;
+	}
+
+	public Vector3d getCameraTarget() {
+		return cameraTarget;
+	}
+
+	public void setCameraTarget(Vector3d cameraTarget) {
+		this.cameraTarget = cameraTarget;
+	}
+
+	public Vector3d getCameraUp() {
+		return cameraUp;
+	}
+
+	public void setCameraUp(Vector3d cameraUp) {
+		this.cameraUp = cameraUp;
+	}
+
+	public double getEyespread() {
+		return eyespread;
+	}
+
+	public void setEyespread(double eyespread) {
+		this.eyespread = eyespread;
+	}
+
+	public void setField_of_view(double field_of_view) {
+		this.field_of_view = field_of_view;
+		this.changedValues=true;
+	}
+
+	public void setZnear(double znear) {
+		this.znear = znear;
+		this.changedValues=true;
+	}
+
+	public void setZfar(double zfar) {
+		this.zfar = zfar;
+		this.changedValues=true;
+	}
+
+	public boolean isChangedValues() {
+		return changedValues;
+	}
+
+	public void setChangedValues(boolean changedValues) {
+		this.changedValues = changedValues;
+	}
+	
 	
 	public Vector3d getPosition() {
 		return cameraPosition;
