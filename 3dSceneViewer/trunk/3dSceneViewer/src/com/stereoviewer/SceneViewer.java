@@ -1,6 +1,8 @@
 package com.stereoviewer;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -203,12 +205,6 @@ public class SceneViewer extends JFrame{
 		}
 	}
 
-
-
-
-
-
-
 	/**
 	 * class that responds when an GLEvent is fired
 	 * @author Jesse Fish
@@ -218,13 +214,34 @@ public class SceneViewer extends JFrame{
 	{
 		private GLU glu;
 		private GLUT glut;
-
+		float h =1;
 		/**
 		 * draws every object into the scene
 		 */
 		public void display(GLAutoDrawable gLDrawable) {
 			// TODO Auto-generated method stub
 			final GL gl = gLDrawable.getGL();
+			//update camera values if necissary
+			if(scene.getCamera().isChangedValues()){
+				updateCam(gLDrawable);
+				scene.getCamera().setChangedValues(false);
+			}
+			//update lights if necissary
+			//global light update
+			if(SceneLight.isGlobalValuesHaveChanged()){
+				scene.setLighting(gl, glu);
+			}
+			//light source update
+			LinkedList <SceneLight>lights=scene.getLightList();
+			ListIterator <SceneLight> runner=lights.listIterator();
+			while(runner.hasNext())
+			{
+				SceneLight temp=runner.next();
+				if(temp.isValuesHaveChanged()){
+					temp.init(gl, glu);
+				}
+			}
+			//finally draw the scene
 			scene.draw(gl, glu, glut);
 		}
 
@@ -262,13 +279,18 @@ public class SceneViewer extends JFrame{
 			final GL gl = gLDrawable.getGL();
 			if (height <= 0) // avoid a divide by zero error
 			{height = 1;}
-			final float h = (float) width / (float) height;
+			h= (float) width / (float) height;
 			gl.glViewport(0, 0, width, height);
+			updateCam(gLDrawable);
+		}
+		public void updateCam(GLAutoDrawable gLDrawable){
+			final GL gl = gLDrawable.getGL();
 			gl.glMatrixMode(GL.GL_PROJECTION);
 			gl.glLoadIdentity();
 			glu.gluPerspective(scene.getCamera().getField_of_view(), h, scene.getCamera().getZnear(), scene.getCamera().getZfar());
 			gl.glMatrixMode(GL.GL_MODELVIEW);
 			gl.glLoadIdentity();
+		
 		}
 	}
 }
