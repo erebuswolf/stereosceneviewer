@@ -21,16 +21,29 @@ public class SceneLoader {
 	 * appropriately
 	 * 
 	 * @param path the path to the scene file to be loaded
+	 * @throws Exception 
 	 */
-	public static Scene loadScene(String path){
+	public static Scene loadScene(String path) throws Exception{
 		Document dom=parseXmlFile(path);
 		//get the root element of the file, which is the scene
 		Element scene=dom.getDocumentElement();
 
 		String title=getTextValue(scene,"Title");
 		LinkedList <Object3D> allObjects=new LinkedList<Object3D>();
+		LinkedList<SceneLight> lightList=new LinkedList<SceneLight>();
 		Camera camera=null;
 
+		String renderString=getTextValue(scene,"StereoRender");
+		boolean renderStereo=false;
+		if(renderString.equals(Scene.on)){
+			renderStereo=true;
+		}		
+		else if(renderString.equals(Scene.off)){
+			renderStereo=false;
+		}
+		else{
+			throw new Exception("Invalid Scene File at StereoRender, must have on or off value, defaulting to off");	
+		}
 
 		//make a list of nodes of the objects in the file
 		NodeList nl = scene.getElementsByTagName("Object");
@@ -63,21 +76,69 @@ public class SceneLoader {
 					e.printStackTrace();
 				}}
 		}
-		
+
 		//grab the global lighting element
-		NodeList mobileLights = scene.getElementsByTagName("GlobalLight");
-		if(globalLight != null && globalLight.getLength() > 0) {
-			Element el=(Element)globalLight.item(0);
-			if(el!=null){
-				try {
-					getGlobalLighting(el);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}}
+		NodeList lightSources = scene.getElementsByTagName("LightSource");
+		if(lightSources != null && lightSources.getLength() > 0) {
+			for(int i = 0 ; i < lightSources.getLength();i++) {
+				//get the Object3d element
+				Element el = (Element)lightSources.item(i);
+				//get the object and add it to the list
+				lightList.add(getLight(el));
+			}
 		}
-		return new Scene(title,camera,allObjects);
+		return new Scene(title,renderStereo,camera,allObjects,lightList);
 	}
+
+	private static SceneLight getLight(Element obj){
+		
+		String name= getTextValue(obj,"Name");
+		int light_number=getIntValue(obj,"Number");
+
+		float AmbientColorR= (float) getDoubleValue(obj,"AmbientColorR");
+		float AmbientColorG= (float) getDoubleValue(obj,"AmbientColorG");
+		float AmbientColorB= (float) getDoubleValue(obj,"AmbientColorB");
+		float AmbientColorA= (float) getDoubleValue(obj,"AmbientColorA");
+		Color4f ambient=new Color4f(AmbientColorR,AmbientColorG,AmbientColorB,AmbientColorA);
+
+		float DiffuseColorR= (float) getDoubleValue(obj,"DiffuseColorR");
+		float DiffuseColorG= (float) getDoubleValue(obj,"DiffuseColorG");
+		float DiffuseColorB= (float) getDoubleValue(obj,"DiffuseColorB");
+		float DiffuseColorA= (float) getDoubleValue(obj,"DiffuseColorA");
+		Color4f diffuse=new Color4f(DiffuseColorR,DiffuseColorG,DiffuseColorB,DiffuseColorA);
+
+		float SpecularColorR= (float) getDoubleValue(obj,"SpecularColorR");
+		float SpecularColorG= (float) getDoubleValue(obj,"SpecularColorG");
+		float SpecularColorB= (float) getDoubleValue(obj,"SpecularColorB");
+		float SpecularColorA= (float) getDoubleValue(obj,"SpecularColorA");
+		Color4f specular=new Color4f(SpecularColorR,SpecularColorG,SpecularColorB,SpecularColorA);
+
+
+		double posx= getDoubleValue(obj,"PositionX");
+		double posy= getDoubleValue(obj,"PositionY");
+		double posz= getDoubleValue(obj,"PositionZ");
+
+
+		double directionx= getDoubleValue(obj,"DirectionX");
+		double directiony= getDoubleValue(obj,"DirectionY");
+		double directionz= getDoubleValue(obj,"DirectionZ");
+
+		float spot_Cutoff=(float) getDoubleValue(obj,"Spot_Cutoff");
+		float intensity=(float) getDoubleValue(obj,"Intensity");
+		float constant_attenuation_constant=(float) getDoubleValue(obj,"ConstAtt");
+		float linear_attenuation_constant=(float) getDoubleValue(obj,"LinearAtt");
+		float quad_attenuation_constant=(float) getDoubleValue(obj,"QuadAtt");
+
+		return new SceneLight(name, light_number, 
+				ambient, diffuse, specular, 
+				posx,posy,posz,
+				directionx,directiony,directionz,
+				spot_Cutoff,intensity, 
+				constant_attenuation_constant, linear_attenuation_constant,
+				quad_attenuation_constant);	
+	}
+
+
 	/**
 	 * Sets up global lighting from the XML file
 	 * @param obj the Element to parse the global lighting from
@@ -88,12 +149,12 @@ public class SceneLoader {
 		Color4f lighting=new Color4f((float)getDoubleValue(obj,"ColorR"),(float)getDoubleValue(obj,"ColorG"),(float)getDoubleValue(obj,"ColorB"),(float)getDoubleValue(obj,"ColorA"));
 
 		SceneLight.setGlobalLighting(lighting);
-		
+
 		Color4f clear_color=new Color4f((float)getDoubleValue(obj,"ClearColorR"),(float)getDoubleValue(obj,"ClearColorG"),(float)getDoubleValue(obj,"ClearColorB"),(float)getDoubleValue(obj,"ClearColorA"));
 		SceneLight.setClear_color(clear_color);
-		
+
 		String temp;
-		
+
 		temp= getTextValue(obj,"GL_LIGHT_MODEL_LOCAL_VIEWER");
 		if(temp.equalsIgnoreCase(Scene.on)){
 			SceneLight.setLocal_viewer(true);
@@ -103,7 +164,7 @@ public class SceneLoader {
 		}else{
 			throw new Exception("Invalid Scene File at GL_LIGHT_MODEL_LOCAL_VIEWER, must have on or off value, defaulting to off");
 		}
-		
+
 		temp= getTextValue(obj,"GL_LIGHT_MODEL_TWO_SIDE");
 		if(temp.equalsIgnoreCase(Scene.on)){
 			SceneLight.setTwo_side(true);
@@ -158,7 +219,7 @@ public class SceneLoader {
 		double roty= getDoubleValue(obj,"RotationY");
 		double rotz= getDoubleValue(obj,"RotationZ");
 		double rotangle= getDoubleValue(obj,"RotationAngle");
-		
+
 
 		double scalex= getDoubleValue(obj,"ScaleX");
 		double scaley= getDoubleValue(obj,"ScaleY");

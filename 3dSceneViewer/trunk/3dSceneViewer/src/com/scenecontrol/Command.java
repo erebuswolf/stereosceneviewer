@@ -38,9 +38,10 @@ public class Command {
 	 * @param command
 	 * @param sceneViewer
 	 * @return a possible reply for data
+	 * @throws Exception 
 	 */
 
-	public static String executeCommand(String command, SceneViewer sceneViewer){
+	public static String executeCommand(String command, SceneViewer sceneViewer) throws Exception{
 		String [] parsed=command.split("\\s");
 		for(int i=0;i<parsed.length;i++){
 			parsed[i]=parsed[i].trim();
@@ -91,7 +92,7 @@ public class Command {
 		return "";
 	}
 
-	public static void loadScene(String path,SceneViewer sceneViewer) {
+	public static void loadScene(String path,SceneViewer sceneViewer) throws Exception {
 		path=path.trim();
 		sceneViewer.loadScene(path);
 		try {
@@ -184,8 +185,9 @@ public class Command {
 	 * executes a sequence of commands separated by the commandSeperator string
 	 * @param commands
 	 * @param scene
+	 * @throws Exception 
 	 */
-	public static void executeCommands(String commands, SceneViewer sceneViewer){
+	public static void executeCommands(String commands, SceneViewer sceneViewer) throws Exception{
 		String [] commandArray=commands.split(commandSeperator);
 		for(int i=0;i<commandArray.length;i++){
 			executeCommand(commandArray[i],sceneViewer);

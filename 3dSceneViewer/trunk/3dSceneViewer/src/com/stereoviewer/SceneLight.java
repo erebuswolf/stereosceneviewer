@@ -76,8 +76,16 @@ public class SceneLight {
 	float quad_attenuation_constant;
 
 	//3 color values, ambient, diffuse and specular
-	public SceneLight(String name, int light_number, Color4f ambient, Color4f diffuse, Color4f specular, double posx,double posy,double posz,double directionx,double directiony,double directionz,float spot_Cutoff,float intensity, float constant_attenuation_constant,float linear_attenuation_constant,float quad_attenuation_constant){
+	public SceneLight(String name, int light_number, 
+			Color4f ambient, Color4f diffuse, Color4f specular, 
+			double posx,double posy,double posz,
+			double directionx,double directiony,double directionz,
+			float spot_Cutoff,float intensity, 
+			float constant_attenuation_constant,float linear_attenuation_constant,
+			float quad_attenuation_constant){
+		
 		this.name=name;
+		this.light_number=light_number;
 		position=new Vector3d(posx,posy,posz);
 		direction=new Vector3d(directionx,directiony,directionz);
 		this.ambient=ambient;

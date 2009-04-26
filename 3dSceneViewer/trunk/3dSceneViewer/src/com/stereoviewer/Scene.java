@@ -14,6 +14,10 @@ import com.sun.opengl.util.GLUT;
  * @author Jesse Fish
  *
  */
+/**
+ * @author jesse
+ *
+ */
 public class Scene {
 	
 	public static Scene emptyScene(){
@@ -29,6 +33,8 @@ public class Scene {
 	///the title for the scene
 	private String title=null;
 
+	private boolean renderStereo=false;
+	
 	/**
 	 * hashtable of all the objects in the entire scene.
 	 * This allows the objects to be accessed by name
@@ -71,12 +77,12 @@ public class Scene {
 	 * @param camera The camera for the scene
 	 * @param allObjects a List of all objects that are in the scene
 	 */
-	public Scene(String title, Camera camera, LinkedList <Object3D> allObjects){
+	public Scene(String title,boolean renderStereo, Camera camera, LinkedList <Object3D> allObjects,LinkedList<SceneLight>lightList){
 		this.title=title;
+		this.renderStereo=renderStereo;
 		this.allObjects=allObjects;
-		
 		this.camera=camera;
-		
+		this.lightList=lightList;
 		//hash all objects by name
 		ListIterator <Object3D> runner=allObjects.listIterator();
 		while(runner.hasNext())
@@ -86,6 +92,14 @@ public class Scene {
 		}
 		//link all the objects to each other
 		linkObjects();
+		
+		//hash all lights by name
+		ListIterator <SceneLight> runner2=lightList.listIterator();
+		while(runner2.hasNext())
+		{
+			SceneLight temp=runner2.next();
+			lightHash.put(temp.getName(), temp);
+		}
 	}
 
 	/**
@@ -199,4 +213,10 @@ public class Scene {
 			temp.init(gl, glu);
 		}
 	}
+	
+	public boolean isRenderStereo() {
+		return renderStereo;
+	}
+
 }
+

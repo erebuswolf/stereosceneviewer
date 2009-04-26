@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scene>
     <Title>Demo Scene</Title>
+    <StereoRender>off</StereoRender>
     <Object>
         <Name>ball1</Name>
         <Parent>ROOT</Parent>
@@ -50,9 +51,9 @@
     </Camera>
 
     <GlobalLight>
-        <ColorR>0.5</ColorR>
-        <ColorG>0.5</ColorG>
-        <ColorB>0.5</ColorB>
+        <ColorR>0.0</ColorR>
+        <ColorG>0.0</ColorG>
+        <ColorB>0.0</ColorB>
         <ColorA>1</ColorA>
         <ClearColorR>0.0</ClearColorR>
         <ClearColorG>0.0</ClearColorG>
@@ -63,7 +64,7 @@
     </GlobalLight >
 
     <LightSource>
-        <Name>light_0</Name>
+        <Name>light0</Name>
         <Number>0</Number>
         <AmbientColorR>0</AmbientColorR>
         <AmbientColorG>0</AmbientColorG>
@@ -77,16 +78,71 @@
         <SpecularColorG>1</SpecularColorG>
         <SpecularColorB>1</SpecularColorB>
         <SpecularColorA>1</SpecularColorA>
-        <Spot_Cutoff>180</Spot_Cutoff>
         <PositionX>0</PositionX>
-        <PositionY>0</PositionY>
-        <PositionZ>-100</PositionZ>
-        <Direction>0</Direction>
-        <Direction>0</Direction>
-        <Direction>-1</Direction>
+        <PositionY>5</PositionY>
+        <PositionZ>1</PositionZ>
+        <DirectionX>0</DirectionX>
+        <DirectionY>0</DirectionY>
+        <DirectionZ>-1</DirectionZ>
+        <Spot_Cutoff>180</Spot_Cutoff>
         <Intensity>1</Intensity>
         <ConstAtt>1</ConstAtt>
-        <LinearAtt>1</LinearAtt>
-        <QuadAtt>1</QuadAtt>
+        <LinearAtt>0</LinearAtt>
+        <QuadAtt>0</QuadAtt>
     </LightSource >
+      <LightSource>
+        <Name>light2</Name>
+        <Number>1</Number>
+        <AmbientColorR>0</AmbientColorR>
+        <AmbientColorG>0</AmbientColorG>
+        <AmbientColorB>0</AmbientColorB>
+        <AmbientColorA>1</AmbientColorA>
+        <DiffuseColorR>1</DiffuseColorR>
+        <DiffuseColorG>1</DiffuseColorG>
+        <DiffuseColorB>1</DiffuseColorB>
+        <DiffuseColorA>1</DiffuseColorA>
+        <SpecularColorR>1</SpecularColorR>
+        <SpecularColorG>1</SpecularColorG>
+        <SpecularColorB>1</SpecularColorB>
+        <SpecularColorA>1</SpecularColorA>
+        <PositionX>3</PositionX>
+        <PositionY>0</PositionY>
+        <PositionZ>1</PositionZ>
+        <DirectionX>0</DirectionX>
+        <DirectionY>0</DirectionY>
+        <DirectionZ>-1</DirectionZ>
+        <Spot_Cutoff>180</Spot_Cutoff>
+        <Intensity>1</Intensity>
+        <ConstAtt>1</ConstAtt>
+        <LinearAtt>0</LinearAtt>
+        <QuadAtt>0</QuadAtt>
+    </LightSource >
+     <LightSource>
+        <Name>light3</Name>
+        <Number>2</Number>
+        <AmbientColorR>0</AmbientColorR>
+        <AmbientColorG>0</AmbientColorG>
+        <AmbientColorB>0</AmbientColorB>
+        <AmbientColorA>1</AmbientColorA>
+        <DiffuseColorR>1</DiffuseColorR>
+        <DiffuseColorG>1</DiffuseColorG>
+        <DiffuseColorB>1</DiffuseColorB>
+        <DiffuseColorA>1</DiffuseColorA>
+        <SpecularColorR>1</SpecularColorR>
+        <SpecularColorG>1</SpecularColorG>
+        <SpecularColorB>1</SpecularColorB>
+        <SpecularColorA>1</SpecularColorA>
+        <PositionX>-3</PositionX>
+        <PositionY>0</PositionY>
+        <PositionZ>1</PositionZ>
+        <DirectionX>0</DirectionX>
+        <DirectionY>0</DirectionY>
+        <DirectionZ>-1</DirectionZ>
+        <Spot_Cutoff>180</Spot_Cutoff>
+        <Intensity>1</Intensity>
+        <ConstAtt>1</ConstAtt>
+        <LinearAtt>0</LinearAtt>
+        <QuadAtt>0</QuadAtt>
+    </LightSource >
+    
 </Scene >

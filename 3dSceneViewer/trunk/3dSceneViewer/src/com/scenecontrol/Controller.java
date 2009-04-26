@@ -7,6 +7,7 @@ import java.io.*;
 public class Controller {
 	private boolean bufferCommands=true;
 	private Socket socket=null;
+	//unused iput reader if we wanted 2 way communication;
 	private BufferedReader input=null;
 	private DataOutputStream output=null;
 	String commands="";
@@ -145,6 +146,8 @@ public class Controller {
 				i+=30;
 				Thread.sleep(10);
 			}
+	//		controller.quit();
+		//	controller.flushCommands();
 
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block

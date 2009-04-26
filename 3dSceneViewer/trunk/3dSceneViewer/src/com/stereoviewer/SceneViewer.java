@@ -23,6 +23,7 @@ import javax.vecmath.Color4f;
 public class SceneViewer extends JFrame{
 	private static final long serialVersionUID = 1L;
 
+	//flag to set whether the default empty scene renders in 3d
 	private static boolean do3d=false;
 
 	private Scene scene;
@@ -149,7 +150,7 @@ public class SceneViewer extends JFrame{
 		animator.stop();
 		this.remove(drawArea);
 		GLCapabilities capabilities=new GLCapabilities();
-		if(do3d){
+		if(scene.isRenderStereo()){
 			capabilities.setStereo(true);
 		}
 		drawArea=new GLCanvas(capabilities);
@@ -158,10 +159,10 @@ public class SceneViewer extends JFrame{
 		drawArea.addGLEventListener(new Refresher());
 		this.add(drawArea);
 		animator.start();
-
+		
 		this.setVisible(true);
 	}
-	public void loadScene(String path){
+	public void loadScene(String path) throws Exception{
 		System.out.println("loading scene "+path);
 		scene=SceneLoader.loadScene(path);
 		this.setTitle(scene.getTitle());
@@ -277,6 +278,7 @@ public class SceneViewer extends JFrame{
 			//end lighting setup
 
 			scene.initModels(gl, glu);
+			scene.setLighting(gl, glu);
 		}
 
 		public void reshape(GLAutoDrawable gLDrawable,int x, int y, int width, int height) {
