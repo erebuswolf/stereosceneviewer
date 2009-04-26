@@ -11,25 +11,26 @@ public class SceneLight {
 	/*
 	 ******************static/library section ******************************
 	 */
+	private final static int light1=GL.GL_LIGHT1;
+	
 	private static Color4f global_light_values= new Color4f( 0.2f, 0.2f, 0.2f, 1.0f);
 	private static Color4f clear_color=new Color4f( 0f, 0f, 0f, 1.0f);
 	private static boolean local_viewer=false;
 	private static boolean two_side=false;
-	private final static int light1=GL.GL_LIGHT1;
 	
 	private static boolean GlobalValuesHaveChanged=false;
 
-	/**
-	 * Sets the global light values for the scene
-	 * @param global_light_values a double array of size 4 with red, green, blue, and alpha values respectively
-	 */
-	public static void setGlobalLighting(Color4f global_light_values){
-		SceneLight.global_light_values=global_light_values;
-	}
-
-	public static Color4f getGlobalLighting() {
+	public static Color4f getGlobal_light_values() {
 		return global_light_values;
 	}
+	/**
+	 * Sets the global light values for the scene
+	 * @param global_light_values a Color4f object to represent the global lighting
+	 */
+	public static void setGlobal_light_values(Color4f global_light_values) {
+		SceneLight.global_light_values = global_light_values;
+	}
+
 	public static float[] getGlobalLightingfv() {
 		float[] temp= { global_light_values.x,global_light_values.y,global_light_values.z,global_light_values.w};
 		return temp;
@@ -181,6 +182,7 @@ public class SceneLight {
 
 	public void setPosition(Vector3d position) {
 		this.position = position;
+		valuesHaveChanged=true;
 	}
 
 	public double getSpot_Cutoff() {
@@ -189,6 +191,7 @@ public class SceneLight {
 
 	public void setSpot_Cutoff(float spot_Cutoff) {
 		this.spot_Cutoff = spot_Cutoff;
+		valuesHaveChanged=true;
 	}
 
 	public String getName() {
@@ -201,6 +204,7 @@ public class SceneLight {
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
+		valuesHaveChanged=true;
 	}
 
 	public Vector3d getDirection() {
@@ -209,6 +213,7 @@ public class SceneLight {
 
 	public void setDirection(Vector3d direction) {
 		this.direction = direction;
+		valuesHaveChanged=true;
 	}
 
 	public Color4f getAmbient() {
@@ -217,6 +222,7 @@ public class SceneLight {
 
 	public void setAmbient(Color4f ambient) {
 		this.ambient = ambient;
+		valuesHaveChanged=true;
 	}
 
 	public Color4f getDiffuse() {
@@ -225,6 +231,7 @@ public class SceneLight {
 
 	public void setDiffuse(Color4f diffuse) {
 		this.diffuse = diffuse;
+		valuesHaveChanged=true;
 	}
 
 	public Color4f getSpecular() {
@@ -233,6 +240,7 @@ public class SceneLight {
 
 	public void setSpecular(Color4f specular) {
 		this.specular = specular;
+		valuesHaveChanged=true;
 	}
 
 	public float getIntensity() {
@@ -241,6 +249,7 @@ public class SceneLight {
 
 	public void setIntensity(float intensity) {
 		this.intensity = intensity;
+		valuesHaveChanged=true;
 	}
 
 	public float getConstant_attenuation_constant() {
@@ -249,6 +258,7 @@ public class SceneLight {
 
 	public void setConstant_attenuation_constant(float constant_attenuation_constant) {
 		this.constant_attenuation_constant = constant_attenuation_constant;
+		valuesHaveChanged=true;
 	}
 
 	public float getLinear_attenuation_constant() {
@@ -257,6 +267,7 @@ public class SceneLight {
 
 	public void setLinear_attenuation_constant(float linear_attenuation_constant) {
 		this.linear_attenuation_constant = linear_attenuation_constant;
+		valuesHaveChanged=true;
 	}
 
 	public float getQuad_attenuation_constant() {
@@ -265,5 +276,15 @@ public class SceneLight {
 
 	public void setQuad_attenuation_constant(float quad_attenuation_constant) {
 		this.quad_attenuation_constant = quad_attenuation_constant;
+		valuesHaveChanged=true;
+	}
+
+	public boolean isValuesHaveChanged() {
+		return valuesHaveChanged;
+	}
+
+	public void setValuesHaveChanged(boolean valuesHaveChanged) {
+		this.valuesHaveChanged = valuesHaveChanged;
+		valuesHaveChanged=true;
 	}
 }
