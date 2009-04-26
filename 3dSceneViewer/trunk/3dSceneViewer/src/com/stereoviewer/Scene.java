@@ -34,7 +34,18 @@ public class Scene {
 	 * This allows the objects to be accessed by name
 	 */
 	private Hashtable<String,Object3D> objects=new Hashtable<String,Object3D>();
-
+	
+	/**
+	 * lights of all the objects in the entire scene.
+	 * This allows the objects to be accessed by name
+	 */
+	private Hashtable<String,SceneLight> lightHash=new Hashtable<String,SceneLight>();
+	/**
+	 * lights of all the objects in the entire scene.
+	 * This allows the objects to be accessed by name
+	 */
+	private LinkedList<SceneLight> lightList=new LinkedList<SceneLight>();
+	
 	/**
 	 * arraylist of objects that are root to the scene.
 	 */
@@ -172,6 +183,20 @@ public class Scene {
 		{
 			Object3D temp=runner.next();
 			temp.initModel(gl, glu);
+		}
+	}
+	
+	/**
+	 * resets the light values for the scene
+	 * @param gl
+	 * @param glu
+	 */
+	public void setLighting(GL gl,GLU glu){
+		ListIterator <SceneLight> runner=lightList.listIterator();
+		while(runner.hasNext())
+		{
+			SceneLight temp=runner.next();
+			temp.init(gl, glu);
 		}
 	}
 }

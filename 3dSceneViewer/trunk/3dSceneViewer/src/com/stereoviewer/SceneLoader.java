@@ -63,6 +63,19 @@ public class SceneLoader {
 					e.printStackTrace();
 				}}
 		}
+		
+		//grab the global lighting element
+		NodeList mobileLights = scene.getElementsByTagName("GlobalLight");
+		if(globalLight != null && globalLight.getLength() > 0) {
+			Element el=(Element)globalLight.item(0);
+			if(el!=null){
+				try {
+					getGlobalLighting(el);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}}
+		}
 		return new Scene(title,camera,allObjects);
 	}
 	/**
