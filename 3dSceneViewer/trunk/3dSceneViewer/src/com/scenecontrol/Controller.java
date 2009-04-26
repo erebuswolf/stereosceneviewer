@@ -4,6 +4,11 @@ package com.scenecontrol;
 import java.net.*;
 import java.io.*;
 
+import javax.vecmath.Color4f;
+
+import com.stereoviewer.SceneLight;
+import com.stereoviewer.SceneViewer;
+
 public class Controller {
 	private boolean bufferCommands=true;
 	private Socket socket=null;
@@ -36,7 +41,9 @@ public class Controller {
 			socket.close();
 		}
 	}
-
+	/*
+	 * *********************Commands start****************************************
+	 */
 	public void loadScene(String path) throws IOException{
 		commands+=Command.loadScene+" "+path+Command.commandSeperator;
 
@@ -44,7 +51,18 @@ public class Controller {
 			flushCommands();
 		}
 	}
-
+	/**
+	 * quits the application and closes the socket
+	 * @throws IOException
+	 */
+	public void quit() throws IOException{
+		commands+=Command.quit+" "+Command.commandSeperator;
+		flushCommands();
+		socket.close();
+	}
+	/*
+	 * *********************Object Commands****************************************
+	 */
 	public void setObjectPosition(String name, double x, double y, double z) throws IOException{
 		commands+=Command.setObjectPosition+" "+name+" "+x+" "+y+" "+z+" "+Command.commandSeperator;
 
@@ -66,22 +84,22 @@ public class Controller {
 			flushCommands();
 		}
 	}
-	public void setObjectColorAmbient(String name, float i, float j, float k) throws IOException{
-		commands+=Command.setObjectColorAmbient+" "+name+" "+i+" "+j+" "+k+" "+Command.commandSeperator;
+	public void setObjectColorAmbient(String name, float r, float g, float b) throws IOException{
+		commands+=Command.setObjectColorAmbient+" "+name+" "+r+" "+g+" "+b+" "+Command.commandSeperator;
 
 		if(!bufferCommands){
 			flushCommands();
 		}
 	}
-	public void setObjectColorDiffuse(String name, float i, float j, float k) throws IOException{
-		commands+=Command.setObjectColorDiffuse+" "+name+" "+i+" "+j+" "+k+" "+Command.commandSeperator;
+	public void setObjectColorDiffuse(String name, float r, float g, float b) throws IOException{
+		commands+=Command.setObjectColorDiffuse+" "+name+" "+r+" "+g+" "+b+" "+Command.commandSeperator;
 
 		if(!bufferCommands){
 			flushCommands();
 		}
 	}
-	public void setObjectColorSpecular(String name, float i, float j, float k) throws IOException{
-		commands+=Command.setObjectColorSpecular+" "+name+" "+i+" "+j+" "+k+" "+Command.commandSeperator;
+	public void setObjectColorSpecular(String name, float r, float g, float b) throws IOException{
+		commands+=Command.setObjectColorSpecular+" "+name+" "+r+" "+g+" "+b+" "+Command.commandSeperator;
 
 		if(!bufferCommands){
 			flushCommands();
@@ -94,17 +112,115 @@ public class Controller {
 			flushCommands();
 		}
 	}
-	
-	/**
-	 * quits the application and closes the socket
-	 * @throws IOException
+	/*
+	 * *********************Camera Commands****************************************
 	 */
-	public void quit() throws IOException{
-		commands+=Command.quit+" "+Command.commandSeperator;
-		flushCommands();
-		socket.close();
+	public void setCameraPosition( double x, double y, double z) throws IOException{
+		commands+=Command.setCameraPosition+" "+x+" "+y+" "+z+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
 	}
 
+	public void setCameraTarget( double x, double y, double z) throws IOException{
+		commands+=Command.setCameraTarget+" "+x+" "+y+" "+z+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+
+	public void setCameraUpVector( double x, double y, double z) throws IOException{
+		commands+=Command.setCameraUpVector+" "+x+" "+y+" "+z+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setCameraFovNF( double Fov, double N, double F) throws IOException{
+		commands+=Command.setCameraFovNF+" "+Fov+" "+N+" "+F+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setCameraIOD( double IOD) throws IOException{
+		commands+=Command.setCameraIOD+" "+IOD+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	/*
+	 * *********************Lighting Commands****************************************
+	 */
+	public void setGlobalLightValues(float r, float g, float b,float a) throws IOException {
+		commands+=Command.setGlobalLightValues+" "+r+" "+g+" "+b+" "+a+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setClearColor(float r, float g, float b,float a) throws IOException {
+		commands+=Command.setClearColor+" "+r+" "+g+" "+b+" "+a+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+
+	public void setLightOptions(boolean local_viewer, boolean two_side) throws IOException {
+		commands+=Command.setLightOptions+" "+local_viewer+" "+two_side+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setLightColorAmbient(String name, float r, float g, float b,float a) throws IOException {
+		commands+=Command.setLightColorAmbient+" "+name+" "+r+" "+g+" "+b+" "+a+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setLightColorDiffuse(String name, float r, float g, float b,float a) throws IOException {
+		commands+=Command.setLightColorDiffuse+" "+name+" "+r+" "+g+" "+b+" "+a+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setLightColorSpecular(String name, float r, float g, float b,float a) throws IOException {
+		commands+=Command.setLightColorSpecular+" "+name+" "+r+" "+g+" "+b+" "+a+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setLightValues(String name,float intensity, float constant_attenuation_constant,
+			float linear_attenuation_constant,float quad_attenuation_constant) throws IOException {
+		
+		commands+=Command.setLightValues+" "+name+" "+intensity+" "+constant_attenuation_constant+
+			" "+linear_attenuation_constant+" "+quad_attenuation_constant+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	public void setLightPosition(String name,double x, double y, double z) throws IOException {
+		
+		commands+=Command.setLightPosition+" "+name+" "+x+" "+y+" "+z+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	
+
+	/*
+	 * *********************Commands end****************************************
+	 */
 	public void flushCommands() throws IOException{
 		if(socket.isConnected()){
 			output.writeBytes(commands);
@@ -147,8 +263,8 @@ public class Controller {
 				i+=30;
 				Thread.sleep(10);
 			}
-	//		controller.quit();
-		//	controller.flushCommands();
+			//		controller.quit();
+			//	controller.flushCommands();
 
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
