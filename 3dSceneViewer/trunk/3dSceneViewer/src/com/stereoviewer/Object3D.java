@@ -113,6 +113,10 @@ public class Object3D {
 	{
 		position=new Vector3d(posx,posy,posz);
 	}
+	
+	public Vector3d getPosition() {
+		return position;
+	}
 
 	/**
 	 * sets the rotation of the object to the input position
@@ -124,6 +128,14 @@ public class Object3D {
 	{
 		rotationVector=new Vector3d(rotx,roty,rotz);
 		rotationAngle=angle;
+	}
+	
+	public Vector3d getRotation() {
+		return rotationVector;
+	}
+	
+	public double getAngle() {
+		return rotationAngle;
 	}
 
 	public String getName() {
