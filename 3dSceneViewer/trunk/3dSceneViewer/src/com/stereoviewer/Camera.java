@@ -143,4 +143,16 @@ public class Camera {
 	public double getField_of_view() {
 		return field_of_view;
 	}
+	
+	public Vector3d getPosition() {
+		return cameraPosition;
+	}
+	
+	public Vector3d getTarget() {
+		return cameraTarget;
+	}
+	
+	public Vector3d getUpVector() {
+		return cameraUp;
+	}
 }
