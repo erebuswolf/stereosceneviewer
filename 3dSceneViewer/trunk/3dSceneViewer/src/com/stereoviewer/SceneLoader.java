@@ -148,7 +148,7 @@ public class SceneLoader {
 	private static void getGlobalLighting(Element obj) throws Exception{
 		Color4f lighting=new Color4f((float)getDoubleValue(obj,"ColorR"),(float)getDoubleValue(obj,"ColorG"),(float)getDoubleValue(obj,"ColorB"),(float)getDoubleValue(obj,"ColorA"));
 
-		SceneLight.setGlobalLighting(lighting);
+		SceneLight.setGlobal_light_values(lighting);
 
 		Color4f clear_color=new Color4f((float)getDoubleValue(obj,"ClearColorR"),(float)getDoubleValue(obj,"ClearColorG"),(float)getDoubleValue(obj,"ClearColorB"),(float)getDoubleValue(obj,"ClearColorA"));
 		SceneLight.setClear_color(clear_color);
