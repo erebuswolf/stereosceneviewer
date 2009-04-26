@@ -200,23 +200,23 @@ public class Controller {
 	}
 	public void setLightValues(String name,float intensity, float constant_attenuation_constant,
 			float linear_attenuation_constant,float quad_attenuation_constant) throws IOException {
-		
+
 		commands+=Command.setLightValues+" "+name+" "+intensity+" "+constant_attenuation_constant+
-			" "+linear_attenuation_constant+" "+quad_attenuation_constant+" "+Command.commandSeperator;
+		" "+linear_attenuation_constant+" "+quad_attenuation_constant+" "+Command.commandSeperator;
 
 		if(!bufferCommands){
 			flushCommands();
 		}
 	}
 	public void setLightPosition(String name,double x, double y, double z) throws IOException {
-		
+
 		commands+=Command.setLightPosition+" "+name+" "+x+" "+y+" "+z+" "+Command.commandSeperator;
 
 		if(!bufferCommands){
 			flushCommands();
 		}
 	}
-	
+
 
 	/*
 	 * *********************Commands end****************************************
@@ -244,27 +244,26 @@ public class Controller {
 	public static void main(String args[]) throws InterruptedException{
 		try {
 			Controller controller=new Controller(6789);
-			controller.loadScene("data/Scene1.xml");
-			controller.flushCommands();
 
+			controller.setBufferCommands(false);
+			
+			controller.loadScene("data/Scene1.xml");
+
+			Thread.sleep(1000);
 			controller.setObjectScale("ball2", 1, 2, 1);
+
+			Thread.sleep(1000);
 			controller.setObjectTransparency("ball2", 0.5f);
+
+			Thread.sleep(1000);
 			controller.setObjectColorDiffuse("ball2", 1, 0, 0);
 			controller.setObjectColorAmbient("ball2", 1, 0, 0);
 			controller.setObjectColorSpecular("ball2", 1, 0, 0);
-			controller.flushCommands();
+			Thread.sleep(1000);
 
-			int i=0;
-			while(true)
-			{
-				controller.setObjectRotation("ball1", 0, 1,0,i/10.);
-				controller.setObjectRotation("ball2", 1, 0,0,i/10.);
-				controller.flushCommands();
-				i+=30;
-				Thread.sleep(10);
-			}
-			//		controller.quit();
-			//	controller.flushCommands();
+
+			controller.quit();
+			controller.flushCommands();
 
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
