@@ -227,20 +227,23 @@ public class SceneViewer extends JFrame{
 				scene.getCamera().setChangedValues(false);
 			}
 			//update lights if necissary
-			//global light update
-			if(SceneLight.isGlobalValuesHaveChanged()){
-				scene.setLighting(gl, glu);
-			}
 			//light source update
+			boolean rerunlights=false;
 			LinkedList <SceneLight>lights=scene.getLightList();
 			ListIterator <SceneLight> runner=lights.listIterator();
 			while(runner.hasNext())
 			{
 				SceneLight temp=runner.next();
 				if(temp.isValuesHaveChanged()){
-					temp.init(gl, glu);
+					rerunlights=true;
 				}
 			}
+			
+			if(SceneLight.isGlobalValuesHaveChanged()||rerunlights){
+				scene.setLighting(gl, glu);
+			}
+			
+			
 			//finally draw the scene
 			scene.draw(gl, glu, glut);
 		}
@@ -254,8 +257,6 @@ public class SceneViewer extends JFrame{
 			GL gl = gLDrawable.getGL();
 			gl.glShadeModel(GL.GL_SMOOTH);              // Enable Smooth Shading
 			gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);			// Set The Blending Function For Translucency
-			Color4f temp=SceneLight.getClear_color();
-			gl.glClearColor(temp.x,temp.y, temp.z,temp.w);
 			glu = new GLU();
 			glut = new GLUT();
 
@@ -268,7 +269,7 @@ public class SceneViewer extends JFrame{
 			gl.glEnable(GL.GL_DEPTH_BUFFER_BIT);
 			gl.glEnable (GL.GL_BLEND);
 
-			SceneLight.initGlobalLighting(gl, glu);
+			
 			scene.setLighting(gl, glu);
 			
 			//end lighting setup
