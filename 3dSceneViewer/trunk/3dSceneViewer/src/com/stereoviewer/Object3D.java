@@ -183,5 +183,13 @@ public class Object3D {
 	public OBJScene getModel() {
 		return model;
 	}
+
+	public boolean isDraw() {
+		return draw;
+	}
+
+	public void setDraw(boolean draw) {
+		this.draw = draw;
+	}
 	
 }
