@@ -3,7 +3,7 @@
     <Title>Demo Scene</Title>
     <StereoRender>off</StereoRender>
     <Object>
-        <Name>ball1</Name>
+        <Name>pound1</Name>
         <Parent>ROOT</Parent>
         <Model>./data/board.obj</Model>
         <PositionX>0</PositionX>
@@ -19,8 +19,8 @@
     </Object >
     
      <Object>
-        <Name>ball2</Name>
-        <Parent>ball1</Parent>
+        <Name>pound2</Name>
+        <Parent>pound1</Parent>
         <Model>./data/board.obj</Model>
         <PositionX>0</PositionX>
         <PositionY>0</PositionY>
@@ -64,8 +64,8 @@
     </GlobalLight >
 
     <LightSource>
-        <Name>light0</Name>
-        <Number>0</Number>
+        <Name>light1</Name>
+        <Number>1</Number>
         <AmbientColorR>0</AmbientColorR>
         <AmbientColorG>0</AmbientColorG>
         <AmbientColorB>0</AmbientColorB>
@@ -92,7 +92,7 @@
     </LightSource >
       <LightSource>
         <Name>light2</Name>
-        <Number>1</Number>
+        <Number>2</Number>
         <AmbientColorR>0</AmbientColorR>
         <AmbientColorG>0</AmbientColorG>
         <AmbientColorB>0</AmbientColorB>
@@ -119,7 +119,7 @@
     </LightSource >
      <LightSource>
         <Name>light3</Name>
-        <Number>2</Number>
+        <Number>3</Number>
         <AmbientColorR>0</AmbientColorR>
         <AmbientColorG>0</AmbientColorG>
         <AmbientColorB>0</AmbientColorB>
