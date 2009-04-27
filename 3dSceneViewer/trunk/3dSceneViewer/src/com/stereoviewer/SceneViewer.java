@@ -243,7 +243,6 @@ public class SceneViewer extends JFrame{
 				scene.setLighting(gl, glu);
 			}
 			
-			
 			//finally draw the scene
 			scene.draw(gl, glu, glut);
 		}
