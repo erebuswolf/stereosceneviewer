@@ -29,6 +29,7 @@ public class SceneLight {
 	 */
 	public static void setGlobal_light_values(Color4f global_light_values) {
 		SceneLight.global_light_values = global_light_values;
+		GlobalValuesHaveChanged=true;
 	}
 
 	public static float[] getGlobalLightingfv() {
@@ -42,6 +43,7 @@ public class SceneLight {
 
 	public static void setClear_color(Color4f clear_color) {
 		SceneLight.clear_color = clear_color;
+		GlobalValuesHaveChanged=true;
 	}
 
 	public static boolean isLocal_viewer() {
@@ -50,6 +52,7 @@ public class SceneLight {
 
 	public static void setLocal_viewer(boolean local_viewer) {
 		SceneLight.local_viewer = local_viewer;
+		GlobalValuesHaveChanged=true;
 	}
 
 	public static boolean isTwo_side() {
@@ -58,10 +61,12 @@ public class SceneLight {
 
 	public static void setTwo_side(boolean two_side) {
 		SceneLight.two_side = two_side;
+		GlobalValuesHaveChanged=true;
 	}
 
 	public static void initGlobalLighting(GL gl, GLU glu){
-
+		
+		gl.glClearColor(clear_color.x,clear_color.y, clear_color.z,clear_color.w);
 		// make sure that this line is copied into the change ambient lighting method
 		gl.glLightModelfv( GL.GL_LIGHT_MODEL_AMBIENT,getGlobalLightingfv(), 0 );
 
@@ -83,6 +88,7 @@ public class SceneLight {
 			two_side=GL.GL_FALSE;
 		}
 		gl.glLightModeli( GL.GL_LIGHT_MODEL_TWO_SIDE, two_side);
+		
 		
 		GlobalValuesHaveChanged=false;
 	}
