@@ -25,10 +25,10 @@ controller.loadScene('/Users/jesse/programs/BMEProject/3dSceneViewer/data/Scene1
 %make things move around in the demo scene
 
 display('scene loading');
+input('tested scene loading, press enter')
 
-
-pause(1);
 controller.setObjectScale('pound2', 1, 2, 1);
+input('tested object scaling, press enter')
 
 pause(1);
 controller.setObjectTransparency('pound2', 0.5);
@@ -97,7 +97,7 @@ pause(1);
 
 controller.setLightOn('light2',true);
 pause(1)
-p=0
+p=0;
 while(p<100)
     controller.setLightPosition('light2',3-6*(p/100),0,1);
     p=p+1;
