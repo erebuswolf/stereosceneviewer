@@ -21,6 +21,7 @@ public class Command {
 	public static final String setObjectColorDiffuse="setObjectColorDiffuse";
 	public static final String setObjectColorSpecular="setObjectColorSpecular";
 	public static final String setObjectTransparency="setObjectTransparency";
+	public static final String setObjectDraw="setObjectDraw";
 	//camera controls
 	public static final String setCameraPosition="setCameraPosition";
 	public static final String setCameraTarget="setCameraTarget";
@@ -36,6 +37,7 @@ public class Command {
 	public static final String setLightColorDiffuse="setLightColorDiffuse";
 	public static final String setLightColorSpecular="setLightColorSpecular";
 	public static final String setLightValues="setLightValues";
+	public static final String setLightOn="setLightOn";
 	public static final String setLightPosition="setLightPosition";
 	public static final String setLightDirection="setLightDirection";
 
@@ -104,6 +106,9 @@ public class Command {
 		else if(parsed[0].equals(setObjectScale)){
 			setObjectScale(parsed[1],Double.valueOf(parsed[2]),Double.valueOf(parsed[3]),Double.valueOf(parsed[4]), sceneViewer);
 		}	
+		else if(parsed[0].equals(setObjectDraw)){
+			setObjectDraw(parsed[1],Boolean.valueOf(parsed[2]),sceneViewer);
+		}	
 		/*
 		 * *********************Camera Commands****************************************
 		 */
@@ -159,6 +164,9 @@ public class Command {
 		}
 		else if(parsed[0].equals(setLightValues)){
 			setLightValues(parsed[1],Float.valueOf(parsed[2]), Float.valueOf(parsed[3]), Float.valueOf(parsed[4]),Float.valueOf(parsed[5]),sceneViewer);
+		}
+		else if(parsed[0].equals(setLightOn)){
+			setLightOn(parsed[1],Boolean.valueOf(parsed[2]),sceneViewer);
 		}
 		else if(parsed[0].equals(setLightPosition)){
 			setLightPosition(parsed[1],Float.valueOf(parsed[2]), Float.valueOf(parsed[3]), Float.valueOf(parsed[4]),sceneViewer);
@@ -262,6 +270,15 @@ public class Command {
 			System.out.println("error object "+name+" does not exist");
 		}
 	}
+	public static void setObjectDraw(String name, boolean draw,SceneViewer sceneViewer) {
+		if(sceneViewer.getScene().getObject(name)!=null){
+			sceneViewer.getScene().getObject(name).setDraw(draw);
+		}
+		else{
+			System.out.println("error object "+name+" does not exist");
+		}
+	}
+	
 	/*
 	 * *********************Camera Commands****************************************
 	 */
@@ -342,6 +359,15 @@ public class Command {
 		}
 	}
 
+	public static void setLightOn( String name,boolean enable,SceneViewer sceneViewer) {
+		SceneLight temp=sceneViewer.getScene().getLightHash().get(name);
+		if(temp!=null){
+			temp.setEnable(enable);
+		}
+		else{
+			System.out.println("error light "+name+" does not exist");
+		}
+	}
 	public static void setLightPosition( String name,double a, double b, double c,SceneViewer sceneViewer) {
 		SceneLight temp=sceneViewer.getScene().getLightHash().get(name);
 		if(temp!=null){
