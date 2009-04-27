@@ -206,6 +206,7 @@ public class Scene {
 	 * @param glu
 	 */
 	public void setLighting(GL gl,GLU glu){
+		SceneLight.initGlobalLighting(gl, glu);
 		ListIterator <SceneLight> runner=lightList.listIterator();
 		while(runner.hasNext())
 		{
