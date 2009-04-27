@@ -112,6 +112,14 @@ public class Controller {
 			flushCommands();
 		}
 	}
+	public void setObjectDraw(String name, boolean draw) throws IOException{
+		commands+=Command.setObjectDraw+" "+name+" "+draw+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
+	
 	/*
 	 * *********************Camera Commands****************************************
 	 */
@@ -198,6 +206,13 @@ public class Controller {
 			flushCommands();
 		}
 	}
+	public void setLightOn(String name,boolean enable) throws IOException {
+		commands+=Command.setLightOn+" "+name+" "+enable+" "+Command.commandSeperator;
+
+		if(!bufferCommands){
+			flushCommands();
+		}
+	}
 	public void setLightValues(String name,float intensity, float constant_attenuation_constant,
 			float linear_attenuation_constant,float quad_attenuation_constant) throws IOException {
 
@@ -209,7 +224,6 @@ public class Controller {
 		}
 	}
 	public void setLightPosition(String name,double x, double y, double z) throws IOException {
-
 		commands+=Command.setLightPosition+" "+name+" "+x+" "+y+" "+z+" "+Command.commandSeperator;
 
 		if(!bufferCommands){
@@ -250,20 +264,26 @@ public class Controller {
 			controller.loadScene("data/Scene1.xml");
 
 			Thread.sleep(1000);
-			controller.setObjectScale("ball2", 1, 2, 1);
+			controller.setObjectScale("pound2", 1, 2, 1);
 
 			Thread.sleep(1000);
-			controller.setObjectTransparency("ball2", 0.5f);
+			controller.setObjectTransparency("pound2", 0.5f);
 
 			Thread.sleep(1000);
-			controller.setObjectColorDiffuse("ball2", 1, 0, 0);
-			controller.setObjectColorAmbient("ball2", 1, 0, 0);
-			controller.setObjectColorSpecular("ball2", 1, 0, 0);
+			controller.setObjectColorDiffuse("pound2", 1, 0, 0);
+			controller.setObjectColorAmbient("pound2", 1, 0, 0);
+			controller.setObjectColorSpecular("pound2", 1, 0, 0);
 			Thread.sleep(1000);
 
-
+			controller.setCameraUpVector(1, 1, 0);
+			Thread.sleep(1000);
+			
+			controller.setCameraPosition(0, 100, 1);
+			Thread.sleep(1000);
+			controller.setCameraTarget(1, 0, 1);
+			Thread.sleep(1000);
+			
 			controller.quit();
-			controller.flushCommands();
 
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
