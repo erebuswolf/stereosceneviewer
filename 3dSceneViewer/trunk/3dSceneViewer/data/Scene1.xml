@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scene>
     <Title>Demo Scene</Title>
-    <StereoRender>off</StereoRender>
+    <StereoRender>on</StereoRender>
     <Object>
         <Name>pound1</Name>
         <Parent>ROOT</Parent>
